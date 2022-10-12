@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "752550302844",
+    "project_id": "dropnote-4330",
+    "storage_bucket": "dropnote-4330.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752550302844:android:242fe7a2d2d555c4a325f9",
+        "android_client_info": {
+          "package_name": "com.example.dropnote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752550302844-kfhjg6kedlapsno0hgjen2k7dg0u3kl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5x3y2ksR6kToR3C1TzJpY9XJ0wwoHAqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752550302844-kfhjg6kedlapsno0hgjen2k7dg0u3kl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
