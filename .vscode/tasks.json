@@ -9,7 +9,8 @@
         {
             "label": "start android emulator",
             "command": "emulator -avd Pixel",
-            "type": "shell"
+            "type": "shell",
+            "problemMatcher": []
         },
         {
             "label": "start emulators",
