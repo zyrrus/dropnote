@@ -2,6 +2,9 @@
 
 import 'dart:io';
 
+import 'package:dropnote/pages/core_page.dart';
+import 'package:dropnote/theme.dart';
+
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,115 +25,25 @@ void main() async {
     _configureFirebaseFirestore();
   }
 
-  runApp(const MyApp());
+  runApp(const DropNoteApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class DropNoteApp extends StatefulWidget {
+  const DropNoteApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<DropNoteApp> createState() => _DropNoteAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _DropNoteAppState extends State<DropNoteApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            return HomePage();
-          } else {
-            return LoginPage();
-          }
-        },
+      theme: Theme.of(context).copyWith(
+        scaffoldBackgroundColor: DropNote.colors.background,
       ),
-    );
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> logIn() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-
-    if (email.isNotEmpty && password.isNotEmpty) {
-      FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("DropNote"),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("Email"),
-                  hintText: "Enter an email",
-                ),
-                controller: _emailController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("Password"),
-                  hintText: "Enter a password",
-                ),
-                obscureText: true,
-                controller: _passwordController,
-              ),
-              ElevatedButton(onPressed: logIn, child: Text("Login")),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text("Logged in")),
-          ElevatedButton(
-              onPressed: FirebaseAuth.instance.signOut,
-              child: Text("Sign out")),
-        ],
-      ),
+      home: CorePage(),
     );
   }
 }

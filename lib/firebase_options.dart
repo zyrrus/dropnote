@@ -66,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '752550302844',
     projectId: 'dropnote-4330',
     storageBucket: 'dropnote-4330.appspot.com',
-    iosClientId: '752550302844-5hhjaeesfut4aveinp3p286dfu14rtle.apps.googleusercontent.com',
+    iosClientId:
+        '752550302844-5hhjaeesfut4aveinp3p286dfu14rtle.apps.googleusercontent.com',
     iosBundleId: 'com.example.dropnote',
   );
 
@@ -76,7 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '752550302844',
     projectId: 'dropnote-4330',
     storageBucket: 'dropnote-4330.appspot.com',
-    iosClientId: '752550302844-5hhjaeesfut4aveinp3p286dfu14rtle.apps.googleusercontent.com',
+    iosClientId:
+        '752550302844-5hhjaeesfut4aveinp3p286dfu14rtle.apps.googleusercontent.com',
     iosBundleId: 'com.example.dropnote',
   );
 }
