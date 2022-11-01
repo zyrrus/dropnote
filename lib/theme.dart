@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,5 +27,6 @@ class _TextStyles {
         color: DropNote.colors.foreground,
         fontWeight: FontWeight.w500,
         fontSize: 40.0,
+        fontFeatures: const [FontFeature.disable('liga')],
       );
 }

@@ -15,7 +15,7 @@ class CorePage extends StatefulWidget {
 }
 
 class _CorePageState extends State<CorePage> {
-  bool isAutenticated = true;
+  bool isAuthenticated = true;
   int _selectedPageIndex = 0;
 
   final List<Widget> _pages = const [
@@ -29,7 +29,7 @@ class _CorePageState extends State<CorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return (isAutenticated)
+    return (isAuthenticated)
         ? Scaffold(
             bottomNavigationBar: BottomTabNavigation(
               selectedIndex: _selectedPageIndex,
