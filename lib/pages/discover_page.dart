@@ -9,7 +9,7 @@ class DiscoverPage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Discover Page",
+          "Discover",
           style: DropNote.textStyles.pageHeader(),
         )
       ],

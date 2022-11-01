@@ -1,6 +1,5 @@
+import 'package:dropnote/theme.dart';
 import 'package:flutter/widgets.dart';
-
-import '../theme.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -10,7 +9,7 @@ class ProfilePage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Profile Page",
+          "Profile",
           style: DropNote.textStyles.pageHeader(),
         )
       ],

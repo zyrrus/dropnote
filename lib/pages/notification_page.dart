@@ -9,7 +9,7 @@ class NotificationPage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Notification Page",
+          "Notifications",
           style: DropNote.textStyles.pageHeader(),
         )
       ],
