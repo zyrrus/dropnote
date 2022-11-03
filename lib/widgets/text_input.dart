@@ -42,6 +42,8 @@ class _TextInputState extends State<TextInput> {
         style: DropNote.textStyles.placeholder(color: focusedColor),
         cursorColor: DropNote.colors.primary,
         decoration: InputDecoration(
+          isCollapsed: true,
+          contentPadding: const EdgeInsets.all(10.0),
           label: Text(
             widget.label,
             style: DropNote.textStyles.label(color: focusedColor),
