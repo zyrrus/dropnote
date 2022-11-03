@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 class DropNote {
   static final _Colors colors = _Colors();
   static final _TextStyles textStyles = _TextStyles();
+  static final _Decorations commonDecorations = _Decorations();
 }
 
 class _Colors {
@@ -29,4 +30,18 @@ class _TextStyles {
         fontSize: 40.0,
         fontFeatures: const [FontFeature.disable('liga')],
       );
+
+  TextStyle label({Color? color}) => header(
+        color: color ?? DropNote.colors.foreground,
+        fontSize: 22.0,
+        fontFeatures: const [FontFeature.disable('liga')],
+      );
+
+  TextStyle placeholder({Color? color}) => header(
+        color: color ?? DropNote.colors.disabled,
+        fontSize: 24.0,
+        fontFeatures: const [FontFeature.disable('liga')],
+      );
 }
+
+class _Decorations {}
