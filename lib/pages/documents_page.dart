@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DocumentsPage extends StatelessWidget {
   const DocumentsPage({super.key});
-
+  void uploadButtonPressed() {}
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -11,6 +11,17 @@ class DocumentsPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
           appBar: DocumentsAppBar(),
+          floatingActionButton: SizedBox.square(
+            dimension: 75.0,
+            child: FloatingActionButton(
+              backgroundColor: DropNote.colors.primary,
+              onPressed: uploadButtonPressed,
+              child: const Icon(
+                Icons.add,
+                size: 35.0,
+              ),
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: TabBarView(
