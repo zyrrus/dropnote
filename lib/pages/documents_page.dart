@@ -15,14 +15,8 @@ class DocumentsPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20.0),
             child: TabBarView(
               children: [
-                Text(
-                  "Uploaded",
-                  style: DropNote.textStyles.header(),
-                ),
-                Text(
-                  "Saved",
-                  style: DropNote.textStyles.header(),
-                )
+                Text("Uploaded", style: DropNote.textStyles.body(fontSize: 18)),
+                Text("Saved", style: DropNote.textStyles.body(fontSize: 18))
               ],
             ),
           )),
@@ -41,7 +35,7 @@ AppBar DocumentsAppBar() => AppBar(
       bottom: PreferredSize(
         preferredSize: const Size(double.infinity, 25),
         child: TabBar(
-          labelStyle: DropNote.textStyles.header(fontSize: 20.0),
+          labelStyle: DropNote.textStyles.tabLabel(),
           labelColor: DropNote.colors.primary,
           labelPadding: EdgeInsets.zero,
           unselectedLabelColor: DropNote.colors.disabled,
