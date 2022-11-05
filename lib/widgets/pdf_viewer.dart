@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:alh_pdf_view/lib.dart';
 import 'package:dropnote/api/pdf.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class PDFViewer extends StatelessWidget {
   final String url;
@@ -16,7 +16,7 @@ class PDFViewer extends StatelessWidget {
       future: PDFApi.getFileFromDatabase(url),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return _PDF(pdfData: snapshot.data);
+          return _PDFLarge(pdfData: snapshot.data);
         }
         return const Center(
           child: SizedBox.square(
@@ -29,61 +29,70 @@ class PDFViewer extends StatelessWidget {
   }
 }
 
-class _PDF extends StatefulWidget {
+class _PDFLarge extends StatefulWidget {
   final Uint8List? pdfData;
 
-  _PDF({Key? key, this.pdfData}) : super(key: key);
+  _PDFLarge({Key? key, this.pdfData}) : super(key: key);
 
-  __PDFState createState() => __PDFState();
+  __PDFLargeState createState() => __PDFLargeState();
 }
 
-class __PDFState extends State<_PDF> with WidgetsBindingObserver {
-  final Completer<PDFViewController> _controller =
-      Completer<PDFViewController>();
-  int? pages = 0;
-  int? currentPage = 0;
-  bool isReady = false;
-  String errorMessage = '';
+class __PDFLargeState extends State<_PDFLarge> with WidgetsBindingObserver {
+  // int? pages = 0;
+  // int? currentPage = 0;
+  // bool isReady = false;
+  // String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
-    return PDFView(
-      fitEachPage: true,
-      enableSwipe: true,
-      pdfData: widget.pdfData,
+    return AlhPdfView(
+      bytes: widget.pdfData,
+      swipeHorizontal: false,
+
+      // fitEachPage: true,
       // enableSwipe: true,
-      swipeHorizontal: true,
-      autoSpacing: false,
-      pageFling: true,
-      pageSnap: true,
-      defaultPage: currentPage!,
-      fitPolicy: FitPolicy.WIDTH,
-      preventLinkNavigation: false,
-      onRender: (_pages) {
-        setState(() {
-          pages = _pages;
-          isReady = true;
-        });
-      },
-      onError: (error) {
-        setState(() {
-          errorMessage = error.toString();
-        });
-      },
-      onPageError: (page, error) {
-        setState(() {
-          errorMessage = '$page: ${error.toString()}';
-        });
-      },
-      onViewCreated: (PDFViewController pdfViewController) {
-        _controller.complete(pdfViewController);
-      },
-      onLinkHandler: (String? uri) {},
-      onPageChanged: (int? page, int? total) {
-        setState(() {
-          currentPage = page;
-        });
-      },
+      // autoSpacing: false,
+      // pageFling: true,
+      // pageSnap: true,
+      // defaultPage: currentPage!,
+      // fitPolicy: FitPolicy.width,
+      // onRender: (_pages) {
+      //   setState(() {
+      //     pages = _pages;
+      //     isReady = true;
+      //   });
+      // },
+      // onError: (error) {
+      //   setState(() {
+      //     errorMessage = error.toString();
+      //   });
+      // },
+      // onPageError: (page, error) {
+      //   setState(() {
+      //     errorMessage = '$page: ${error.toString()}';
+      //   });
+      // },
+      // onPageChanged: (int? page, int? total) {
+      //   setState(() {
+      //     currentPage = page;
+      //   });
+      // },
     );
+  }
+}
+
+// TODO: Implement the small pdf viewer (for the file previews)
+
+class _PDFSmall extends StatefulWidget {
+  const _PDFSmall({super.key});
+
+  @override
+  State<_PDFSmall> createState() => __PDFSmallState();
+}
+
+class __PDFSmallState extends State<_PDFSmall> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

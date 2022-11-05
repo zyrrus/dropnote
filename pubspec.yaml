@@ -18,7 +18,7 @@ dependencies:
     cloud_firestore: ^4.0.1
     firebase_storage: ^11.0.1
     file_picker: ^5.2.2
-    flutter_pdfview: ^1.2.1
+    alh_pdf_view: ^1.1.0
 
 dev_dependencies:
     flutter_test:
