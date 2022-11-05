@@ -1,8 +1,7 @@
-import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:alh_pdf_view/lib.dart';
-import 'package:dropnote/api/pdf.dart';
+import 'package:dropnote/api/docs.dart';
 import 'package:flutter/material.dart';
 
 class PDFViewer extends StatelessWidget {
@@ -13,7 +12,7 @@ class PDFViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List>(
-      future: PDFApi.getFileFromDatabase(url),
+      future: DocApi.getFileFromDatabase(url),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return _PDFLarge(pdfData: snapshot.data);
@@ -32,7 +31,7 @@ class PDFViewer extends StatelessWidget {
 class _PDFLarge extends StatefulWidget {
   final Uint8List? pdfData;
 
-  _PDFLarge({Key? key, this.pdfData}) : super(key: key);
+  const _PDFLarge({Key? key, this.pdfData}) : super(key: key);
 
   __PDFLargeState createState() => __PDFLargeState();
 }
