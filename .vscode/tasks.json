@@ -4,7 +4,8 @@
         {
             "label": "start firebase emulators",
             "command": "firebase emulators:start",
-            "type": "shell"
+            "type": "shell",
+            "problemMatcher": []
         },
         {
             "label": "start android emulator",

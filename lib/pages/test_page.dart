@@ -1,41 +1,40 @@
+import 'package:dropnote/pages/core_page.dart';
+import 'package:dropnote/widgets/pdf_viewer.dart';
 import 'package:dropnote/theme.dart';
 import 'package:flutter/material.dart';
 
-class TestPage extends StatelessWidget {
-  const TestPage({super.key});
+void main() => runApp(TestPage());
 
+class TestPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return _Core(children: []);
-  }
+  _TestPageState createState() => _TestPageState();
 }
 
-class _Core extends StatelessWidget {
-  final List<Widget>? children;
-
-  const _Core({super.key, this.children});
-
+class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Test Page",
-                  style: DropNote.textStyles.pageHeader(),
-                ),
-                ...?children
-              ]
-                  .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: e,
-                      ))
-                  .toList()),
-        ),
+    return CoreTemplate(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Test Page",
+            style: DropNote.textStyles.pageHeader(),
+          ),
+          Expanded(
+            // constraints: BoxConstraints(
+            //     maxHeight: MediaQuery.of(context).size.height),
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: DropNote.colors.disabled,
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: const PDFViewer(url: "dropteam-product-strategy.pdf"),
+              // child: const PDFViewer(url: "dropnote.pdf"),
+            ),
+          ),
+        ],
       ),
     );
   }
