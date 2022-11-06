@@ -10,7 +10,7 @@
         },
         {
             "name": "LOCAL DEVICE",
-            "program": "bin/main.dart",
+            // "program": "bin/main.dart",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -23,7 +23,7 @@
         },
         {
             "name": "PRODUCTION",
-            "program": "bin/main.dart",
+            // "program": "bin/main.dart",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",

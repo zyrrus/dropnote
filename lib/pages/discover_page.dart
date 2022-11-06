@@ -1,6 +1,7 @@
 import 'package:dropnote/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dropnote/widgets/search_bar.dart';
+import 'package:dropnote/widgets/profile_list_item.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -21,7 +22,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
         ),
         SearchBar(
           controller: TextEditingController(),
-        )
+          ),
+        ProfileListItem(
+          professorName: "Nash Mahmoud",
+          schoolName: "Louisiana State University",
+        ),
       ],
     );
   }
