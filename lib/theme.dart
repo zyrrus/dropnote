@@ -31,6 +31,12 @@ class _TextStyles {
         fontFeatures: const [FontFeature.disable('liga')],
       );
 
+  TextStyle tabLabel() => header(
+        color: DropNote.colors.foreground,
+        fontSize: 20.0,
+        fontFeatures: const [FontFeature.disable('liga')],
+      );
+
   TextStyle label({Color? color}) => header(
         color: color ?? DropNote.colors.foreground,
         fontSize: 22.0,
@@ -41,6 +47,21 @@ class _TextStyles {
         color: color ?? DropNote.colors.disabled,
         fontSize: 24.0,
         fontFeatures: const [FontFeature.disable('liga')],
+      );
+
+  TextStyle fileTitle() => header(
+        color: DropNote.colors.background,
+        fontSize: 24.0,
+      );
+
+  TextStyle fileSubtext({Color? color}) => header(
+        color: color ?? DropNote.colors.background,
+        fontSize: 18.0,
+      );
+
+  TextStyle fileTags() => header(
+        color: DropNote.colors.background,
+        fontSize: 14.0,
       );
 }
 

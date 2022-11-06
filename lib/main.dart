@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dropnote/pages/core_page.dart';
+import 'package:dropnote/pages/test_page.dart';
 import 'package:dropnote/theme.dart';
 
 import 'firebase_options.dart';
@@ -43,7 +44,7 @@ class _DropNoteAppState extends State<DropNoteApp> {
       theme: Theme.of(context).copyWith(
         scaffoldBackgroundColor: DropNote.colors.background,
       ),
-      home: CorePage(),
+      home: TestPage(), // CorePage(),
     );
   }
 }

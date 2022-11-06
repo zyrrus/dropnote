@@ -30,21 +30,36 @@ class _CorePageState extends State<CorePage> {
   @override
   Widget build(BuildContext context) {
     return (isAuthenticated)
-        ? Scaffold(
-            bottomNavigationBar: BottomTabNavigation(
+        ? CoreTemplate(
+            bottomTab: BottomTabNavigation(
               selectedIndex: _selectedPageIndex,
               onTap: changePage,
             ),
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0.0),
-                child: IndexedStack(
-                  index: _selectedPageIndex,
-                  children: _pages,
-                ),
-              ),
+            child: IndexedStack(
+              index: _selectedPageIndex,
+              children: _pages,
             ),
           )
-        : TestPage(); // TODO: Login Page
+        : CoreTemplate(child: TestPage()); // TODO: Login Page
+  }
+}
+
+class CoreTemplate extends StatelessWidget {
+  final Widget child;
+  final Widget? bottomTab;
+
+  const CoreTemplate({super.key, required this.child, this.bottomTab});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: bottomTab,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+          child: child,
+        ),
+      ),
+    );
   }
 }
