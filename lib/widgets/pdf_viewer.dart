@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:alh_pdf_view/lib.dart';
 import 'package:dropnote/api/docs.dart';
 import 'package:flutter/material.dart';
+import 'package:thumbnailer/thumbnailer.dart';
 
 class PDFViewer extends StatelessWidget {
   final String url;
@@ -33,65 +34,38 @@ class _PDFLarge extends StatefulWidget {
 
   const _PDFLarge({Key? key, this.pdfData}) : super(key: key);
 
+  @override
   __PDFLargeState createState() => __PDFLargeState();
 }
 
 class __PDFLargeState extends State<_PDFLarge> with WidgetsBindingObserver {
-  // int? pages = 0;
-  // int? currentPage = 0;
-  // bool isReady = false;
-  // String errorMessage = '';
-
   @override
   Widget build(BuildContext context) {
     return AlhPdfView(
       bytes: widget.pdfData,
       swipeHorizontal: false,
-
-      // fitEachPage: true,
-      // enableSwipe: true,
-      // autoSpacing: false,
-      // pageFling: true,
-      // pageSnap: true,
-      // defaultPage: currentPage!,
-      // fitPolicy: FitPolicy.width,
-      // onRender: (_pages) {
-      //   setState(() {
-      //     pages = _pages;
-      //     isReady = true;
-      //   });
-      // },
-      // onError: (error) {
-      //   setState(() {
-      //     errorMessage = error.toString();
-      //   });
-      // },
-      // onPageError: (page, error) {
-      //   setState(() {
-      //     errorMessage = '$page: ${error.toString()}';
-      //   });
-      // },
-      // onPageChanged: (int? page, int? total) {
-      //   setState(() {
-      //     currentPage = page;
-      //   });
-      // },
+      fitEachPage: false,
+      autoSpacing: false,
+      defaultZoomFactor: 2.0,
+      backgroundColor: Colors.red,
     );
   }
 }
 
-// TODO: Implement the small pdf viewer (for the file previews)
+class PDFSmall extends StatelessWidget {
+  final String url;
 
-class _PDFSmall extends StatefulWidget {
-  const _PDFSmall({super.key});
+  const PDFSmall({super.key, required this.url});
 
-  @override
-  State<_PDFSmall> createState() => __PDFSmallState();
-}
-
-class __PDFSmallState extends State<_PDFSmall> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SizedBox(
+      height: 150.0,
+      child: Thumbnail(
+        mimeType: 'application/pdf',
+        widgetSize: MediaQuery.of(context).size.width,
+        dataResolver: () => DocApi.getFileFromDatabase(url),
+      ),
+    );
   }
 }

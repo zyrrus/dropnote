@@ -48,6 +48,21 @@ class _TextStyles {
         fontSize: 24.0,
         fontFeatures: const [FontFeature.disable('liga')],
       );
+
+  TextStyle fileTitle() => header(
+        color: DropNote.colors.background,
+        fontSize: 24.0,
+      );
+
+  TextStyle fileSubtext({Color? color}) => header(
+        color: color ?? DropNote.colors.background,
+        fontSize: 18.0,
+      );
+
+  TextStyle fileTags() => header(
+        color: DropNote.colors.background,
+        fontSize: 14.0,
+      );
 }
 
 class _Decorations {}
