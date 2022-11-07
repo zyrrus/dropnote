@@ -1,9 +1,15 @@
+import 'package:dropnote/pages/docs_upload_page.dart';
 import 'package:dropnote/theme.dart';
 import 'package:flutter/material.dart';
 
 class DocumentsPage extends StatelessWidget {
   const DocumentsPage({super.key});
-  void uploadButtonPressed() {}
+
+  void uploadButtonPressed(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DocsUploadPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -15,7 +21,7 @@ class DocumentsPage extends StatelessWidget {
             dimension: 75.0,
             child: FloatingActionButton(
               backgroundColor: DropNote.colors.primary,
-              onPressed: uploadButtonPressed,
+              onPressed: () => uploadButtonPressed(context),
               child: const Icon(
                 Icons.add,
                 size: 35.0,
