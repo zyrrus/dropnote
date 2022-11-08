@@ -3,12 +3,12 @@ import 'package:dropnote/widgets/pdf_viewer.dart';
 import 'package:flutter/widgets.dart';
 
 class FileCard extends StatefulWidget {
-  final String url;
+  final String filename;
   final bool showPreview;
 
   const FileCard({
     super.key,
-    required this.url,
+    required this.filename,
     this.showPreview = true,
   });
 
@@ -56,7 +56,7 @@ class _FileCardState extends State<FileCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             widget.showPreview
-                ? PDFSmall(url: widget.url)
+                ? PDFSmall(filename: widget.filename)
                 : const SizedBox(height: 5.0),
             CustomPaint(
               painter: FilePainter(),

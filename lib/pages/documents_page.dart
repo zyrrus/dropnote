@@ -1,5 +1,6 @@
 import 'package:dropnote/pages/docs_upload_page.dart';
 import 'package:dropnote/theme.dart';
+import 'package:dropnote/widgets/file_card.dart';
 import 'package:flutter/material.dart';
 
 class DocumentsPage extends StatelessWidget {
@@ -7,7 +8,11 @@ class DocumentsPage extends StatelessWidget {
 
   void uploadButtonPressed(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DocsUploadPage()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => const DocsUploadPage(),
+      ),
+    );
   }
 
   @override
@@ -31,10 +36,7 @@ class DocumentsPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: TabBarView(
-              children: [
-                Text("Uploaded", style: DropNote.textStyles.body(fontSize: 18)),
-                Text("Saved", style: DropNote.textStyles.body(fontSize: 18))
-              ],
+              children: [UploadedTab(), SavedTab()],
             ),
           )),
     );
@@ -66,3 +68,27 @@ AppBar DocumentsAppBar() => AppBar(
         ),
       ),
     );
+
+class UploadedTab extends StatelessWidget {
+  const UploadedTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [FileCard(filename: "dropteam-product-strategy.pdf")],
+    );
+  }
+}
+
+class SavedTab extends StatelessWidget {
+  const SavedTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FileCard(filename: "dropteam-product-strategy.pdf", showPreview: false)
+      ],
+    );
+  }
+}
