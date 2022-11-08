@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:thumbnailer/thumbnailer.dart';
 
 class PDFViewer extends StatelessWidget {
-  final String url;
+  final String filename;
 
-  const PDFViewer({super.key, required this.url});
+  const PDFViewer({super.key, required this.filename});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List>(
-      future: DocApi.getFileFromDatabase(url),
+      future: DocApi.getFileFromDatabase(filename),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return _PDFLarge(pdfData: snapshot.data);
+          return PDFLarge(pdfData: snapshot.data);
         }
         return const Center(
           child: SizedBox.square(
@@ -29,16 +29,16 @@ class PDFViewer extends StatelessWidget {
   }
 }
 
-class _PDFLarge extends StatefulWidget {
+class PDFLarge extends StatefulWidget {
   final Uint8List? pdfData;
 
-  const _PDFLarge({Key? key, this.pdfData}) : super(key: key);
+  const PDFLarge({Key? key, this.pdfData}) : super(key: key);
 
   @override
-  __PDFLargeState createState() => __PDFLargeState();
+  _PDFLargeState createState() => _PDFLargeState();
 }
 
-class __PDFLargeState extends State<_PDFLarge> with WidgetsBindingObserver {
+class _PDFLargeState extends State<PDFLarge> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return AlhPdfView(
