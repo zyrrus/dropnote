@@ -17,6 +17,7 @@ class _Colors {
   final Color disabled = const Color(0x33383747);
   final Color primary = const Color(0xff897EA5);
   final Color secondary = const Color(0xffCFB9A5);
+  final Color clear = const Color(0x00000000);
 }
 
 class _TextStyles {
@@ -47,6 +48,17 @@ class _TextStyles {
         color: color ?? DropNote.colors.disabled,
         fontSize: 24.0,
         fontFeatures: const [FontFeature.disable('liga')],
+      );
+
+  TextStyle setting() => body(
+        color: DropNote.colors.foreground,
+        fontSize: 22.0,
+      );
+
+  TextStyle settingHeader() => header(
+        color: DropNote.colors.foreground,
+        fontWeight: FontWeight.w500,
+        fontSize: 22.0,
       );
 
   TextStyle fileTitle() => header(
