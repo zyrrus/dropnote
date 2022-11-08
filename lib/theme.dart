@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DropNote {
@@ -65,4 +65,40 @@ class _TextStyles {
       );
 }
 
-class _Decorations {}
+class _Decorations {
+  InputBorder enabledBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: DropNote.colors.foreground,
+      width: 1.0,
+    ),
+  );
+
+  InputBorder focusedBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: DropNote.colors.primary,
+      width: 2.0,
+    ),
+  );
+
+  InputDecoration fieldDecoration({
+    required String label,
+    required Color focusedColor,
+    String? placeholder,
+  }) =>
+      InputDecoration(
+        iconColor: focusedColor,
+        suffixIconColor: focusedColor,
+        isCollapsed: true,
+        contentPadding: const EdgeInsets.all(10.0),
+        label: Text(
+          label,
+          style: DropNote.textStyles.label(color: focusedColor),
+        ),
+        hintText: placeholder ?? label,
+        hintStyle: DropNote.textStyles.placeholder(),
+        enabledBorder: enabledBorder,
+        focusedBorder: focusedBorder,
+        alignLabelWithHint: true,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      );
+}

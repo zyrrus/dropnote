@@ -5,7 +5,6 @@ class TextInput extends StatefulWidget {
   final String label;
   final String? placeholder;
   final TextEditingController? controller;
-  final FloatingLabelBehavior? labelBehavior;
   final bool isPassword;
 
   const TextInput({
@@ -14,7 +13,6 @@ class TextInput extends StatefulWidget {
     this.placeholder,
     this.isPassword = false,
     this.controller,
-    this.labelBehavior,
   });
 
   @override
@@ -41,30 +39,10 @@ class _TextInputState extends State<TextInput> {
         controller: widget.controller,
         style: DropNote.textStyles.placeholder(color: focusedColor),
         cursorColor: DropNote.colors.primary,
-        decoration: InputDecoration(
-          isCollapsed: true,
-          contentPadding: const EdgeInsets.all(10.0),
-          label: Text(
-            widget.label,
-            style: DropNote.textStyles.label(color: focusedColor),
-          ),
-          hintText: widget.placeholder ?? widget.label,
-          hintStyle: DropNote.textStyles.placeholder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: DropNote.colors.foreground,
-              width: 1.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: DropNote.colors.primary,
-              width: 2.0,
-            ),
-          ),
-          alignLabelWithHint: true,
-          floatingLabelBehavior:
-              widget.labelBehavior ?? FloatingLabelBehavior.always,
+        decoration: DropNote.commonDecorations.fieldDecoration(
+          label: widget.label,
+          focusedColor: focusedColor,
+          placeholder: widget.placeholder,
         ),
       ),
     );
