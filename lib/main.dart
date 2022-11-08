@@ -44,7 +44,7 @@ class _DropNoteAppState extends State<DropNoteApp> {
       theme: Theme.of(context).copyWith(
         scaffoldBackgroundColor: DropNote.colors.background,
       ),
-      home: TestPage(), // CorePage(),
+      home: CorePage(),
     );
   }
 }
