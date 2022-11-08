@@ -50,7 +50,7 @@ class _PDFLargeState extends State<PDFLarge> with WidgetsBindingObserver {
       autoSpacing: true,
       // defaultZoomFactor: 0.9,
       fitPolicy: FitPolicy.width,
-      backgroundColor: DropNote.colors.disabled.withOpacity(0),
+      backgroundColor: DropNote.colors.clear,
     );
   }
 }
