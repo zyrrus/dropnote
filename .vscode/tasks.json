@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "start firebase emulators",
+            "command": "firebase emulators:start",
+            "type": "shell",
+            "problemMatcher": []
+        },
+        {
+            "label": "start android emulator",
+            "command": "emulator -avd Pixel",
+            "type": "shell",
+            "problemMatcher": []
+        },
+        {
+            "label": "start emulators",
+            "dependsOn": ["start firebase emulators", "start android emulator"],
+            "problemMatcher": []
+        }
+    ]
+}

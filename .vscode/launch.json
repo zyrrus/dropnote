@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "LOCAL EMULATOR",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "toolArgs": ["--dart-define", "USE_FIREBASE_EMU=true"]
+        },
+        {
+            "name": "LOCAL DEVICE",
+            // "program": "bin/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "toolArgs": [
+                "--dart-define",
+                "USE_FIREBASE_EMU=true",
+                "--dart-define",
+                "FIREBASE_EMU_URL=$(ip route get 8.8.8.8 | head -1 | awk '{print $7}')"
+            ]
+        },
+        {
+            "name": "PRODUCTION",
+            // "program": "bin/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "toolArgs": ["--dart-define", "USE_FIREBASE_EMU=false"]
+        },
+        {
+            "name": "dropnote (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
+    ]
+}
