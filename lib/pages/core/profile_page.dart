@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
       children: [
         Text(
           "Profile",
-          style: DropNote.textStyles.pageHeader(),
+          style: DropNote.textStyles.main(),
         )
       ],
     );

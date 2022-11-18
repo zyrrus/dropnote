@@ -1,9 +1,7 @@
-import 'package:dropnote/pages/discover_page.dart';
-import 'package:dropnote/pages/documents_page.dart';
-import 'package:dropnote/pages/notification_page.dart';
-import 'package:dropnote/pages/profile_page.dart';
-import 'package:dropnote/pages/test_page.dart';
-import 'package:dropnote/theme.dart';
+import 'package:dropnote/pages/core/discover_page.dart';
+import 'package:dropnote/pages/core/documents_page.dart';
+import 'package:dropnote/pages/core/notification_page.dart';
+import 'package:dropnote/pages/core/profile_page.dart';
 import 'package:dropnote/widgets/bottom_tab_navigator.dart';
 import 'package:flutter/material.dart';
 
@@ -29,18 +27,19 @@ class _CorePageState extends State<CorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return (isAuthenticated)
-        ? CoreTemplate(
-            bottomTab: BottomTabNavigation(
-              selectedIndex: _selectedPageIndex,
-              onTap: changePage,
-            ),
-            child: IndexedStack(
-              index: _selectedPageIndex,
-              children: _pages,
-            ),
-          )
-        : CoreTemplate(child: TestPage()); // TODO: Login Page
+    return
+        // (isAuthenticated) ?
+        CoreTemplate(
+      bottomTab: BottomTabNavigation(
+        selectedIndex: _selectedPageIndex,
+        onTap: changePage,
+      ),
+      child: IndexedStack(
+        index: _selectedPageIndex,
+        children: _pages,
+      ),
+    );
+    // : CoreTemplate(child: AuthPage());
   }
 }
 
@@ -54,12 +53,7 @@ class CoreTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: bottomTab,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: child,
-        ),
-      ),
+      body: SafeArea(child: child),
     );
   }
 }

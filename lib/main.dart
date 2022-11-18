@@ -2,8 +2,7 @@
 
 import 'dart:io';
 
-import 'package:dropnote/pages/core_page.dart';
-import 'package:dropnote/pages/test_page.dart';
+import 'package:dropnote/pages/core/core_page.dart';
 import 'package:dropnote/theme.dart';
 
 import 'firebase_options.dart';
