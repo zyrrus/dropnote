@@ -1,28 +1,33 @@
 import 'package:dropnote/theme.dart';
+import 'package:dropnote/widgets/icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class TopBar extends StatelessWidget {
+class TitleBar extends StatelessWidget {
   final String title;
   final bool showBackButton;
   final Widget? suffixIcon;
+  final bool isLarge;
 
-  const TopBar({
+  const TitleBar({
     super.key,
     required this.title,
     this.showBackButton = false,
     this.suffixIcon,
+    this.isLarge = true,
   });
 
   Widget getTitle() => Text(
         title,
-        style: DropNote.textStyles.pageHeader(),
+        style: isLarge ? DropNote.textStyles.h1() : DropNote.textStyles.h2(),
       );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 17.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: DropNote.pagePadding,
+        vertical: 17.0,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -46,6 +51,35 @@ class TopBar extends StatelessWidget {
           // suffix icon?
         ],
       ),
+    );
+  }
+}
+
+class SubtitleBar extends StatelessWidget {
+  final String title;
+  final void Function()? onIconPressed;
+
+  const SubtitleBar({
+    super.key,
+    required this.title,
+    this.onIconPressed,
+  });
+
+  Widget? getIcon() {
+    if (onIconPressed is void Function()) {
+      return DNIconButton(
+        icon: Icons.arrow_forward_ios_rounded,
+        onTap: onIconPressed,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TitleBar(
+      title: title,
+      suffixIcon: getIcon(),
+      isLarge: false,
     );
   }
 }

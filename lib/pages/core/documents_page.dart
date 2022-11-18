@@ -1,18 +1,16 @@
-import 'package:dropnote/pages/docs_upload_page.dart';
 import 'package:dropnote/theme.dart';
-import 'package:dropnote/widgets/file_card.dart';
 import 'package:flutter/material.dart';
 
 class DocumentsPage extends StatelessWidget {
   const DocumentsPage({super.key});
 
   void uploadButtonPressed(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const DocsUploadPage(),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => TestPage(),
+    //   ),
+    // );
   }
 
   @override
@@ -33,8 +31,8 @@ class DocumentsPage extends StatelessWidget {
               ),
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+          body: const Padding(
+            padding: EdgeInsets.only(top: 20.0),
             child: TabBarView(
               children: [UploadedTab(), SavedTab()],
             ),
@@ -49,15 +47,15 @@ AppBar DocumentsAppBar() => AppBar(
       backgroundColor: Colors.white.withAlpha(0),
       title: Text(
         "Documents",
-        style: DropNote.textStyles.pageHeader(),
+        style: DropNote.textStyles.main(),
       ),
       bottom: PreferredSize(
         preferredSize: const Size(double.infinity, 25),
         child: TabBar(
-          labelStyle: DropNote.textStyles.tabLabel(),
+          labelStyle: DropNote.textStyles.main(),
           labelColor: DropNote.colors.primary,
           labelPadding: EdgeInsets.zero,
-          unselectedLabelColor: DropNote.colors.disabled,
+          unselectedLabelColor: DropNote.colors.grey,
           // indicatorWeight: 3.0,
           indicatorSize: TabBarIndicatorSize.label,
           indicatorColor: DropNote.colors.primary,
@@ -75,7 +73,9 @@ class UploadedTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [FileCard(filename: "dropteam-product-strategy.pdf")],
+      children: [
+        // FileCard(filename: "dropteam-product-strategy.pdf"),
+      ],
     );
   }
 }
@@ -87,7 +87,7 @@ class SavedTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FileCard(filename: "dropteam-product-strategy.pdf", showPreview: false)
+        // FileCard(filename: "dropteam-product-strategy.pdf", showPreview: false)
       ],
     );
   }

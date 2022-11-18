@@ -10,7 +10,7 @@ class NotificationPage extends StatelessWidget {
       children: [
         Text(
           "Notifications",
-          style: DropNote.textStyles.pageHeader(),
+          style: DropNote.textStyles.main(),
         )
       ],
     );
