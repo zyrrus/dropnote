@@ -1,8 +1,8 @@
 import 'package:dropnote/theme.dart';
 import 'package:flutter/widgets.dart';
 
-class Divider extends StatelessWidget {
-  const Divider({super.key});
+class Bar extends StatelessWidget {
+  const Bar({super.key});
 
   @override
   Widget build(BuildContext context) {

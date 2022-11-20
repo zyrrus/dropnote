@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:dropnote/widgets/avatar_list_item.dart';
-import 'package:dropnote/widgets/divider.dart';
+import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/horizontal_list.dart';
 import 'package:dropnote/widgets/search_bar.dart';
 import 'package:dropnote/widgets/tag.dart';
 import 'package:dropnote/widgets/title_bar.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 const tmpTagNames = [
   "numquam",
@@ -89,16 +89,16 @@ class DiscoverPage extends StatelessWidget {
         children: [
           const TitleBar(title: "Discover"),
           SearchBar(controller: TextEditingController()),
-          const Divider(),
+          const Bar(),
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
-          const Divider(),
+          const Bar(),
           SubtitleBar(title: "People from your school", onIconPressed: () {}),
           HorizontalList(children: getPeople()),
-          const Divider(),
+          const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),
           HorizontalList(children: getFiles()),
-          const Divider(),
+          const Bar(),
           const SubtitleBar(title: "Active Schools"),
           HorizontalList(children: getSchools()),
           const SizedBox(height: 100.0),
