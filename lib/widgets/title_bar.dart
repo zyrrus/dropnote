@@ -58,17 +58,19 @@ class TitleBar extends StatelessWidget {
 class SubtitleBar extends StatelessWidget {
   final String title;
   final void Function()? onIconPressed;
+  final IconData? icon;
 
   const SubtitleBar({
     super.key,
     required this.title,
     this.onIconPressed,
+    this.icon,
   });
 
   Widget? getIcon() {
     if (onIconPressed is void Function()) {
       return DNIconButton(
-        icon: Icons.arrow_forward_ios_rounded,
+        icon: icon ?? Icons.arrow_forward_ios_rounded,
         onTap: onIconPressed,
       );
     }
