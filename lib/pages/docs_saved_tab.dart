@@ -16,6 +16,7 @@ class DocsSavedTab extends StatelessWidget {
                 filename: e.fileName,
                 numSaves: e.saveCount,
                 ownerName: e.ownerName,
+                icon: Icons.more_vert,
                 onIconPressed: () => showModalBottomSheet(
                   enableDrag: true,
                   isScrollControlled: true,

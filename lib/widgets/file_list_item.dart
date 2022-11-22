@@ -5,6 +5,7 @@ class FileListItem extends StatelessWidget {
   final String filename;
   final int numSaves;
   final void Function()? onIconPressed;
+  final IconData? icon;
   final String? ownerName; // Leave empty if it is 'my file'
 
   const FileListItem({
@@ -12,6 +13,7 @@ class FileListItem extends StatelessWidget {
     required this.filename,
     required this.numSaves,
     this.onIconPressed,
+    this.icon,
     this.ownerName,
   });
 
@@ -28,6 +30,12 @@ class FileListItem extends StatelessWidget {
     return (ownerName is String && ownerName!.isNotEmpty)
         ? [getDetailsElement(ownerName!), saves]
         : [saves];
+  }
+
+  IconData getIcon() {
+    if (icon is IconData) return icon!;
+    if (ownerName is String && ownerName!.isNotEmpty) return Icons.save_alt;
+    return Icons.more_vert;
   }
 
   @override
@@ -54,12 +62,8 @@ class FileListItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: onIconPressed,
-              icon: Icon(
-                  (ownerName is String && ownerName!.isNotEmpty)
-                      ? Icons.save_alt
-                      : Icons.more_vert,
-                  color: DropNote.colors.foreground,
-                  size: 22.0),
+              icon: Icon(getIcon(),
+                  color: DropNote.colors.foreground, size: 22.0),
             ),
           ],
         ),
