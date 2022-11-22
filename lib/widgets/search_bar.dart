@@ -11,13 +11,13 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
-  Color focusedColor = DropNote.colors.grey;
+  Color focusedColor = DropNote.colors.lightGrey;
   bool showClearButton = false;
 
   void updateFocusedColor(bool hasFocus) {
     setState(() {
       focusedColor =
-          hasFocus ? DropNote.colors.foreground : DropNote.colors.grey;
+          hasFocus ? DropNote.colors.foreground : DropNote.colors.lightGrey;
     });
   }
 
@@ -37,7 +37,7 @@ class _SearchBarState extends State<SearchBar> {
           cursorColor: DropNote.colors.primary,
           decoration: InputDecoration(
             filled: true,
-            fillColor: DropNote.colors.grey,
+            fillColor: DropNote.colors.lightGrey,
             isCollapsed: true,
             prefixIcon: Icon(
               Icons.search,
@@ -60,14 +60,14 @@ class _SearchBarState extends State<SearchBar> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(
-                color: DropNote.colors.grey,
+                color: DropNote.colors.lightGrey,
                 width: 1.0,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(
-                color: DropNote.colors.grey,
+                color: DropNote.colors.lightGrey,
                 width: 2.0,
               ),
             ),
