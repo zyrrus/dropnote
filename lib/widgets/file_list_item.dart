@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class FileListItem extends StatelessWidget {
   final String filename;
   final int numSaves;
-  final String? ownerName; // Leave empty if it is my file
+  final String? ownerName; // Leave empty if it is 'my file'
 
   const FileListItem({
     super.key,
@@ -18,48 +18,48 @@ class FileListItem extends StatelessWidget {
     return Column(
       children: [
         // TODO: File Thumbnail
-        const Placeholder(child: SizedBox(width: 250.0, height: 150.0)),
-        SizedBox(
-          width: 250.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                filename,
-                style: DropNote.textStyles.main(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.save_alt, size: 22.0),
-              ),
-            ],
+        const Placeholder(
+          child: AspectRatio(
+            aspectRatio: 16.0 / 9.0,
+            child: SizedBox.expand(),
           ),
         ),
-        SizedBox(
-          width: 250.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (ownerName is String)
-                Text(
-                  ownerName!,
-                  style: DropNote.textStyles.main(
-                    fontSize: 14.0,
-                    color: DropNote.colors.darkGrey,
-                  ),
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              filename,
+              style: DropNote.textStyles.main(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.save_alt, size: 22.0),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (ownerName is String)
               Text(
-                "$numSaves saves",
+                ownerName!,
                 style: DropNote.textStyles.main(
-                  fontSize: 14.0,
+                  fontSize: 16.0,
                   color: DropNote.colors.darkGrey,
                 ),
               ),
-            ],
-          ),
+            Text(
+              "$numSaves saves",
+              style: DropNote.textStyles.main(
+                fontSize: 16.0,
+                color: DropNote.colors.darkGrey,
+              ),
+            ),
+          ],
         ),
       ],
     );

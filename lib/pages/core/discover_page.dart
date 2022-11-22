@@ -51,10 +51,13 @@ class DiscoverPage extends StatelessWidget {
       .toList();
 
   List<Widget> getFiles() => tmpFiles
-      .map((e) => FileListItem(
-            filename: e,
-            numSaves: Random(123).nextInt(99999),
-            ownerName: "First Lastname",
+      .map((e) => SizedBox(
+            width: 300.0,
+            child: FileListItem(
+              filename: e,
+              numSaves: Random(123).nextInt(99999),
+              ownerName: "First Lastname",
+            ),
           ))
       .toList();
 

@@ -1,8 +1,34 @@
+import 'dart:math';
+
+import 'package:dropnote/main.dart';
 import 'package:dropnote/theme.dart';
+import 'package:dropnote/widgets/bar.dart';
+import 'package:dropnote/widgets/file_list_item.dart';
+import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
 
-class DocumentsPage extends StatelessWidget {
+class DocumentsPage extends StatefulWidget {
   const DocumentsPage({super.key});
+
+  @override
+  State<DocumentsPage> createState() => _DocumentsPageState();
+}
+
+class _DocumentsPageState extends State<DocumentsPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   void uploadButtonPressed(BuildContext context) {
     // Navigator.push(
@@ -15,67 +41,93 @@ class DocumentsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      // animationDuration: Duration.zero,
-      length: 2,
-      child: Scaffold(
-          appBar: DocumentsAppBar(),
-          floatingActionButton: SizedBox.square(
-            dimension: 75.0,
-            child: FloatingActionButton(
-              backgroundColor: DropNote.colors.primary,
-              onPressed: () => uploadButtonPressed(context),
-              child: const Icon(
-                Icons.add,
-                size: 35.0,
+    return Scaffold(
+      floatingActionButton: SizedBox.square(
+        dimension: 75.0,
+        child: FloatingActionButton(
+          onPressed: () => uploadButtonPressed(context),
+          backgroundColor: DropNote.colors.primary,
+          elevation: 0,
+          highlightElevation: 0,
+          child: Icon(Icons.add, size: 35.0, color: DropNote.colors.foreground),
+        ),
+      ),
+      body: Column(
+        children: [
+          const TitleBar(title: "Documents"),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom:
+                    BorderSide(color: DropNote.colors.lightGrey, width: 2.0),
               ),
             ),
-          ),
-          body: const Padding(
-            padding: EdgeInsets.only(top: 20.0),
-            child: TabBarView(
-              children: [UploadedTab(), SavedTab()],
+            margin: EdgeInsets.symmetric(horizontal: DropNote.pagePadding),
+            child: TabBar(
+              controller: _tabController,
+              indicatorColor: DropNote.colors.primary,
+              indicatorWeight: 3.0,
+              labelColor: DropNote.colors.foreground,
+              labelStyle: DropNote.textStyles.main(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: DropNote.textStyles.main(fontSize: 18.0),
+              unselectedLabelColor: DropNote.colors.darkGrey,
+              tabs: const [Tab(text: "Uploaded"), Tab(text: "Saved")],
             ),
-          )),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [UploadedTab(), SavedTab()]
+                  .map(
+                    (e) => Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        DropNote.pagePadding,
+                        DropNote.pagePadding,
+                        DropNote.pagePadding,
+                        0.0,
+                      ),
+                      child: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-AppBar DocumentsAppBar() => AppBar(
-      elevation: 0,
-      titleSpacing: 0,
-      backgroundColor: Colors.white.withAlpha(0),
-      title: Text(
-        "Documents",
-        style: DropNote.textStyles.main(),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size(double.infinity, 25),
-        child: TabBar(
-          labelStyle: DropNote.textStyles.main(),
-          labelColor: DropNote.colors.primary,
-          labelPadding: EdgeInsets.zero,
-          unselectedLabelColor: DropNote.colors.grey,
-          // indicatorWeight: 3.0,
-          indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: DropNote.colors.primary,
-          tabs: const [
-            Tab(height: 32.0, text: "Uploaded"),
-            Tab(height: 32.0, text: "Saved")
-          ],
-        ),
-      ),
-    );
+const tmpFiles = [
+  "synergized.pdf",
+  "total.pdf",
+  "salad_super.pdf",
+  "grass_roots.pdf",
+];
+
+List<Widget> getFiles() => tmpFiles
+    .map((e) => Padding(
+          padding: EdgeInsets.only(bottom: DropNote.pagePadding),
+          child: FileListItem(
+            filename: e,
+            numSaves: Random(123).nextInt(99999),
+            ownerName: "First Lastname",
+          ),
+        ))
+    .toList();
 
 class UploadedTab extends StatelessWidget {
   const UploadedTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // FileCard(filename: "dropteam-product-strategy.pdf"),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: getFiles(),
+      ),
     );
   }
 }
@@ -85,10 +137,10 @@ class SavedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // FileCard(filename: "dropteam-product-strategy.pdf", showPreview: false)
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: getFiles(),
+      ),
     );
   }
 }
