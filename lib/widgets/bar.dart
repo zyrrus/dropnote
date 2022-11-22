@@ -2,12 +2,17 @@ import 'package:dropnote/theme.dart';
 import 'package:flutter/widgets.dart';
 
 class Bar extends StatelessWidget {
-  const Bar({super.key});
+  final bool noPadding;
+
+  const Bar({super.key, this.noPadding = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: noPadding ? 0.0 : 20.0,
+      ),
       child: Container(
         width: double.infinity,
         height: 2.0,
