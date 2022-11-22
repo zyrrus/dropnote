@@ -36,13 +36,13 @@ class DocsUploadTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: FutureBuilder<Object>(
+      child: FutureBuilder<List<Widget>>(
           future: getFiles(context),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Column(children: snapshot.data as List<Widget>);
+              return Column(children: snapshot.data!);
             }
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }),
     );
   }

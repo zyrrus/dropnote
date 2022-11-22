@@ -38,11 +38,11 @@ class DocsSavedTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: FutureBuilder<Object>(
+      child: FutureBuilder<List<Widget>>(
           future: getFiles(context),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Column(children: snapshot.data as List<Widget>);
+              return Column(children: snapshot.data!);
             }
             return const Center(
               child: SizedBox.square(

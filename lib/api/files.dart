@@ -41,7 +41,7 @@ class FileDetails {
 }
 
 class FileAPI {
-  static Future<List<FileDetails>> _getAllFiles() async {
+  static Future<List<FileDetails>> getAllFiles() async {
     // Read json data
     var file = await rootBundle.loadString('assets/fake_data/files.json');
     var json = jsonDecode(file) as Map;
@@ -54,13 +54,13 @@ class FileAPI {
   }
 
   static Future<List<FileDetails>> getMyFiles(String userID) async {
-    List<FileDetails> files = await _getAllFiles();
+    List<FileDetails> files = await getAllFiles();
     return files.where((e) => e.ownerID == userID).toList();
   }
 
   static Future<List<FileDetails>> getSavedFiles(String userID) async {
     // TODO: This method is not implemented correctly
-    List<FileDetails> files = await _getAllFiles();
+    List<FileDetails> files = await getAllFiles();
     return files.where((e) => e.ownerID != userID).toList();
   }
 }
