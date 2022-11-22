@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dropnote/api/schools.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
@@ -36,26 +37,6 @@ const tmpFiles = [
   "grass_roots.pdf",
 ];
 
-const tmpSchools = [
-  // [name, url]
-  [
-    "Louisiana State University",
-    "https://www.klfy.com/wp-content/uploads/sites/9/2019/07/lsu_logo2_400x400.jpg"
-  ],
-  [
-    "University of Louisiana Lafayette",
-    "https://pbs.twimg.com/profile_images/817127494788804608/SmY_ctJX_400x400.jpg"
-  ],
-  [
-    "Tulane University",
-    "https://pbs.twimg.com/profile_images/1116476139558572032/XJyCCQd4_400x400.jpg"
-  ],
-  [
-    "McNeese State University",
-    "https://upload.wikimedia.org/wikipedia/en/thumb/f/f7/McNeese_State_Athletics_logo.svg/1200px-McNeese_State_Athletics_logo.svg.png"
-  ],
-];
-
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
 
@@ -77,8 +58,8 @@ class DiscoverPage extends StatelessWidget {
           ))
       .toList();
 
-  List<Widget> getSchools() => tmpSchools
-      .map((e) => AvatarListItem(imageURL: e[1], label: e[0]))
+  List<Widget> getSchools() => SchoolAPI.getSchools()
+      .map((e) => AvatarListItem(label: e.name, imageURL: e.image))
       .toList();
 
   @override
