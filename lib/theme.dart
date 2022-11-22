@@ -16,10 +16,10 @@ class DropNote {
 class _Colors {
   final Color foreground = Colors.black;
   final Color background = Colors.white;
-  final Color lightGrey = const Color(0xFFD4D4D4);
-  final Color grey = Color(0xFFBEBEBE);
-  final Color darkGrey = Color.fromARGB(255, 172, 172, 172);
-  final Color primary = const Color(0xffF5BA62);
+  final Color lightGrey = const Color.fromRGBO(230, 230, 230, 1);
+  final Color grey = const Color.fromRGBO(210, 210, 210, 1);
+  final Color darkGrey = const Color.fromRGBO(160, 160, 160, 1);
+  final Color primary = const Color(0xFFF5BA62);
   final Color clear = const Color(0x00000000);
 }
 
@@ -28,7 +28,11 @@ class _TextStyles {
 
   // === Commonly used text styles =============================================
 
-  TextStyle h1() => main(fontWeight: FontWeight.w600, fontSize: 32);
+  TextStyle h1() => main(
+        color: DropNote.colors.foreground,
+        fontWeight: FontWeight.w600,
+        fontSize: 32,
+      );
 
   TextStyle h2() => main(fontWeight: FontWeight.w600, fontSize: 24);
 }
