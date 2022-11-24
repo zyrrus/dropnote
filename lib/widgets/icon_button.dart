@@ -18,6 +18,7 @@ class DNIconButton extends StatelessWidget {
     return SizedBox.square(
       dimension: 35.0,
       child: FloatingActionButton(
+        heroTag: UniqueKey(),
         backgroundColor: DropNote.colors.primary,
         foregroundColor: DropNote.colors.foreground,
         onPressed: onTap,

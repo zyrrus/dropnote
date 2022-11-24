@@ -35,6 +35,12 @@ class _TextStyles {
       );
 
   TextStyle h2() => main(fontWeight: FontWeight.w600, fontSize: 24);
+
+  TextStyle s1() => main(
+        color: DropNote.colors.darkGrey,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      );
 }
 
 class _Decorations {}

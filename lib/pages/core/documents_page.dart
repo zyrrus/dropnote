@@ -1,8 +1,10 @@
 import 'dart:math';
-
 import 'package:dropnote/main.dart';
+import 'package:dropnote/pages/core/core_page.dart';
+import 'package:dropnote/pages/upload_page.dart';
 import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/bar.dart';
+import 'package:dropnote/widgets/bottom_tab_navigator.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +33,14 @@ class _DocumentsPageState extends State<DocumentsPage>
   }
 
   void uploadButtonPressed(BuildContext context) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => TestPage(),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CoreTemplate(
+          child: UploadPage(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -45,6 +49,7 @@ class _DocumentsPageState extends State<DocumentsPage>
       floatingActionButton: SizedBox.square(
         dimension: 75.0,
         child: FloatingActionButton(
+          heroTag: UniqueKey(),
           onPressed: () => uploadButtonPressed(context),
           backgroundColor: DropNote.colors.primary,
           elevation: 0,
