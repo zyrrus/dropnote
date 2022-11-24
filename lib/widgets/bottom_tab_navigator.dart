@@ -31,6 +31,7 @@ class BottomTabNavigation extends StatelessWidget {
           navItem(Icons.folder_outlined),
           navItem(Icons.notifications_outlined),
           navItem(Icons.person_outline),
+          navItem(Icons.bug_report_outlined),
         ],
       ),
     );

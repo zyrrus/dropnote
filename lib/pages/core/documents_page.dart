@@ -2,9 +2,13 @@ import 'dart:math';
 import 'package:dropnote/main.dart';
 import 'package:dropnote/pages/core/core_page.dart';
 import 'package:dropnote/pages/upload_page.dart';
+import 'package:dropnote/widgets/bottom_tab_navigator.dart';
+import 'package:dropnote/pages/core/profile_page.dart';
+import 'package:dropnote/pages/docs_saved_tab.dart';
+import 'package:dropnote/pages/docs_upload_tab.dart';
 import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/bar.dart';
-import 'package:dropnote/widgets/bottom_tab_navigator.dart';
+import 'package:dropnote/widgets/docs_bottom_sheet.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +89,7 @@ class _DocumentsPageState extends State<DocumentsPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [UploadedTab(), SavedTab()]
+              children: const [DocsUploadTab(), DocsSavedTab()]
                   .map(
                     (e) => Padding(
                       padding: EdgeInsets.fromLTRB(
@@ -101,50 +105,6 @@ class _DocumentsPageState extends State<DocumentsPage>
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-const tmpFiles = [
-  "synergized.pdf",
-  "total.pdf",
-  "salad_super.pdf",
-  "grass_roots.pdf",
-];
-
-List<Widget> getFiles() => tmpFiles
-    .map((e) => Padding(
-          padding: EdgeInsets.only(bottom: DropNote.pagePadding),
-          child: FileListItem(
-            filename: e,
-            numSaves: Random(123).nextInt(99999),
-            ownerName: "First Lastname",
-          ),
-        ))
-    .toList();
-
-class UploadedTab extends StatelessWidget {
-  const UploadedTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: getFiles(),
-      ),
-    );
-  }
-}
-
-class SavedTab extends StatelessWidget {
-  const SavedTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: getFiles(),
       ),
     );
   }

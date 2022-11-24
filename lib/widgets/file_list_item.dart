@@ -4,14 +4,39 @@ import 'package:flutter/material.dart';
 class FileListItem extends StatelessWidget {
   final String filename;
   final int numSaves;
+  final void Function()? onIconPressed;
+  final IconData? icon;
   final String? ownerName; // Leave empty if it is 'my file'
 
   const FileListItem({
     super.key,
     required this.filename,
     required this.numSaves,
+    this.onIconPressed,
+    this.icon,
     this.ownerName,
   });
+
+  Widget getDetailsElement(String text) => Text(
+        text,
+        style: DropNote.textStyles.main(
+          fontSize: 16.0,
+          color: DropNote.colors.darkGrey,
+        ),
+      );
+
+  List<Widget> getDetailsRow() {
+    var saves = getDetailsElement("$numSaves saves");
+    return (ownerName is String && ownerName!.isNotEmpty)
+        ? [getDetailsElement(ownerName!), saves]
+        : [saves];
+  }
+
+  IconData getIcon() {
+    if (icon is IconData) return icon!;
+    if (ownerName is String && ownerName!.isNotEmpty) return Icons.save_alt;
+    return Icons.more_vert;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +51,7 @@ class FileListItem extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               filename,
@@ -36,30 +61,15 @@ class FileListItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.save_alt, size: 22.0),
+              onPressed: onIconPressed,
+              icon: Icon(getIcon(),
+                  color: DropNote.colors.foreground, size: 22.0),
             ),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (ownerName is String)
-              Text(
-                ownerName!,
-                style: DropNote.textStyles.main(
-                  fontSize: 16.0,
-                  color: DropNote.colors.darkGrey,
-                ),
-              ),
-            Text(
-              "$numSaves saves",
-              style: DropNote.textStyles.main(
-                fontSize: 16.0,
-                color: DropNote.colors.darkGrey,
-              ),
-            ),
-          ],
+          children: getDetailsRow(),
         ),
       ],
     );
