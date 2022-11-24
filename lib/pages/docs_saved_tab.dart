@@ -23,8 +23,8 @@ class DocsSavedTab extends StatelessWidget {
                   backgroundColor: DropNote.colors.background,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(75.0),
-                      topRight: Radius.circular(75.0),
+                      topLeft: Radius.circular(60.0),
+                      topRight: Radius.circular(60.0),
                     ),
                   ),
                   context: context,

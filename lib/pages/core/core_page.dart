@@ -1,3 +1,5 @@
+import 'package:dropnote/pages/auth/auth_page.dart';
+import 'package:dropnote/pages/core/debug_page.dart';
 import 'package:dropnote/pages/core/discover_page.dart';
 import 'package:dropnote/pages/core/documents_page.dart';
 import 'package:dropnote/pages/core/notification_page.dart';
@@ -21,25 +23,22 @@ class _CorePageState extends State<CorePage> {
     DocumentsPage(),
     NotificationPage(),
     ProfilePage(),
+    DebugPage(),
   ];
 
   void changePage(int i) => setState(() => _selectedPageIndex = i);
 
   @override
   Widget build(BuildContext context) {
-    return
-        // (isAuthenticated) ?
-        CoreTemplate(
-      bottomTab: BottomTabNavigation(
-        selectedIndex: _selectedPageIndex,
-        onTap: changePage,
-      ),
-      child: IndexedStack(
-        index: _selectedPageIndex,
-        children: _pages,
-      ),
-    );
-    // : CoreTemplate(child: AuthPage());
+    return (isAuthenticated)
+        ? CoreTemplate(
+            bottomTab: BottomTabNavigation(
+              selectedIndex: _selectedPageIndex,
+              onTap: changePage,
+            ),
+            child: IndexedStack(index: _selectedPageIndex, children: _pages),
+          )
+        : CoreTemplate(child: AuthPage());
   }
 }
 
