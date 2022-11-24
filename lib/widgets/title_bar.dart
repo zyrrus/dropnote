@@ -36,10 +36,14 @@ class _TitleBar extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 30.0,
-                        color: DropNote.colors.foreground,
+                      icon: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: DropNote.colors.primary,
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 20.0,
+                          color: DropNote.colors.foreground,
+                        ),
                       ),
                     ),
                     getTitle(),
