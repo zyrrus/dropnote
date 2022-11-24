@@ -1,14 +1,22 @@
 import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/title_bar.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class UploadPage extends StatelessWidget {
+class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
 
   @override
+  State<UploadPage> createState() => _UploadPageState();
+}
+
+class _UploadPageState extends State<UploadPage> {
+  @override
+  String filename = '';
+
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,14 +29,24 @@ class UploadPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: InkWell(
-            onTap: () => null,
+            onTap: () => UploadFile(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  "Select File",
-                  textAlign: TextAlign.left,
-                  style: DropNote.textStyles.h1(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Select File",
+                      textAlign: TextAlign.left,
+                      style: DropNote.textStyles.h1(),
+                    ),
+                    Text(
+                      filename,
+                      textAlign: TextAlign.left,
+                      style: DropNote.textStyles.s1(),
+                    )
+                  ],
                 ),
                 Spacer(),
                 Icon(
@@ -185,5 +203,22 @@ class UploadPage extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void UploadFile() async {
+    final results = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg'],
+    );
+
+    if (results != null) {
+      final path = results!.files.single.path!;
+
+      filename = results.files.single.name;
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
 }
