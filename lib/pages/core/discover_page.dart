@@ -50,7 +50,8 @@ class DiscoverPage extends StatelessWidget {
         .map((e) => SizedBox(
               width: 300.0,
               child: FileListItem(
-                filename: e.fileName,
+                fileStyle: FileInfoStyle.saved,
+                fileName: e.fileName,
                 numSaves: e.saveCount,
                 ownerName: e.ownerName,
               ),

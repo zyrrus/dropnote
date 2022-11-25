@@ -13,7 +13,8 @@ class DocsUploadTab extends StatelessWidget {
         .map((e) => Padding(
               padding: EdgeInsets.only(bottom: DropNote.pagePadding),
               child: FileListItem(
-                filename: e.fileName,
+                fileStyle: FileInfoStyle.uploaded,
+                fileName: e.fileName,
                 numSaves: e.saveCount,
                 onIconPressed: () => showModalBottomSheet(
                   enableDrag: true,

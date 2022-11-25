@@ -13,10 +13,10 @@ class DocsSavedTab extends StatelessWidget {
         .map((e) => Padding(
               padding: EdgeInsets.only(bottom: DropNote.pagePadding),
               child: FileListItem(
-                filename: e.fileName,
+                fileStyle: FileInfoStyle.saved,
+                fileName: e.fileName,
                 numSaves: e.saveCount,
                 ownerName: e.ownerName,
-                icon: Icons.more_vert,
                 onIconPressed: () => showModalBottomSheet(
                   enableDrag: true,
                   isScrollControlled: true,
