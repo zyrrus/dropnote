@@ -1,15 +1,8 @@
-import 'dart:math';
-import 'package:dropnote/main.dart';
 import 'package:dropnote/pages/core/core_page.dart';
-import 'package:dropnote/pages/upload_page.dart';
-import 'package:dropnote/widgets/bottom_tab_navigator.dart';
-import 'package:dropnote/pages/core/profile_page.dart';
 import 'package:dropnote/pages/docs_saved_tab.dart';
 import 'package:dropnote/pages/docs_upload_tab.dart';
+import 'package:dropnote/pages/upload_page.dart';
 import 'package:dropnote/theme.dart';
-import 'package:dropnote/widgets/bar.dart';
-import 'package:dropnote/widgets/docs_bottom_sheet.dart';
-import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
 
