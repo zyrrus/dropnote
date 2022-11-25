@@ -9,7 +9,7 @@
         },
         {
             "label": "start persistent firebase emulators",
-            "command": "firebase emulators:start --import ./database --export-on-exit",
+            "command": "firebase emulators:start --import=./database",
             "type": "shell",
             "problemMatcher": []
         }
