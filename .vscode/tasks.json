@@ -8,14 +8,9 @@
             "problemMatcher": []
         },
         {
-            "label": "start android emulator",
-            "command": "emulator -avd Pixel",
+            "label": "start persistent firebase emulators",
+            "command": "firebase emulators:start --import=./database",
             "type": "shell",
-            "problemMatcher": []
-        },
-        {
-            "label": "start emulators",
-            "dependsOn": ["start firebase emulators", "start android emulator"],
             "problemMatcher": []
         }
     ]

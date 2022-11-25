@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dropnote/api/files.dart';
+import 'package:dropnote/api/schools.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
@@ -29,33 +31,6 @@ const tmpPeopleNames = [
   "Debra Hodkiewicz",
 ];
 
-const tmpFiles = [
-  "synergized.pdf",
-  "total.pdf",
-  "salad_super.pdf",
-  "grass_roots.pdf",
-];
-
-const tmpSchools = [
-  // [name, url]
-  [
-    "Louisiana State University",
-    "https://www.klfy.com/wp-content/uploads/sites/9/2019/07/lsu_logo2_400x400.jpg"
-  ],
-  [
-    "University of Louisiana Lafayette",
-    "https://pbs.twimg.com/profile_images/817127494788804608/SmY_ctJX_400x400.jpg"
-  ],
-  [
-    "Tulane University",
-    "https://pbs.twimg.com/profile_images/1116476139558572032/XJyCCQd4_400x400.jpg"
-  ],
-  [
-    "McNeese State University",
-    "https://upload.wikimedia.org/wikipedia/en/thumb/f/f7/McNeese_State_Athletics_logo.svg/1200px-McNeese_State_Athletics_logo.svg.png"
-  ],
-];
-
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
 
@@ -69,16 +44,23 @@ class DiscoverPage extends StatelessWidget {
           ))
       .toList();
 
-  List<Widget> getFiles() => tmpFiles
-      .map((e) => FileListItem(
-            filename: e,
-            numSaves: Random(123).nextInt(99999),
-            ownerName: "First Lastname",
-          ))
-      .toList();
+  Future<List<Widget>> getFiles() async {
+    var files = await FileAPI.getAllFiles();
+    return files
+        .map((e) => SizedBox(
+              width: 300.0,
+              child: FileListItem(
+                fileStyle: FileInfoStyle.saved,
+                fileName: e.fileName,
+                numSaves: e.saveCount,
+                ownerName: e.ownerName,
+              ),
+            ))
+        .toList();
+  }
 
-  List<Widget> getSchools() => tmpSchools
-      .map((e) => AvatarListItem(imageURL: e[1], label: e[0]))
+  List<Widget> getSchools() => SchoolAPI.getSchools()
+      .map((e) => AvatarListItem(label: e.name, imageURL: e.image))
       .toList();
 
   @override
@@ -97,7 +79,19 @@ class DiscoverPage extends StatelessWidget {
           HorizontalList(children: getPeople()),
           const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),
-          HorizontalList(children: getFiles()),
+          FutureBuilder<List<Widget>>(
+              future: getFiles(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return HorizontalList(children: snapshot.data!);
+                }
+                return const Center(
+                  child: SizedBox.square(
+                    dimension: 100.0,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }),
           const Bar(),
           const SubtitleBar(title: "Active Schools"),
           HorizontalList(children: getSchools()),

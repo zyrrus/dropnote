@@ -9,9 +9,9 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
-        color: DropNote.colors.grey,
+        color: DropNote.colors.lightGrey,
         borderRadius: BorderRadius.circular(99.0),
       ),
       child: Text(

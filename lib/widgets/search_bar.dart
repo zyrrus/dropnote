@@ -11,12 +11,13 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
-  Color focusedColor = DropNote.colors.grey;
+  Color focusedColor = DropNote.colors.lightGrey;
+  bool showClearButton = false;
 
   void updateFocusedColor(bool hasFocus) {
     setState(() {
       focusedColor =
-          hasFocus ? DropNote.colors.foreground : DropNote.colors.grey;
+          hasFocus ? DropNote.colors.foreground : DropNote.colors.lightGrey;
     });
   }
 
@@ -24,30 +25,49 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: DropNote.pagePadding),
-      child: Focus(
-        onFocusChange: updateFocusedColor,
+      child: SizedBox(
+        height: 40.0,
         child: TextField(
+          textAlignVertical: TextAlignVertical.center,
           controller: widget.controller,
-          style: DropNote.textStyles.main(color: focusedColor),
+          style: DropNote.textStyles.main(
+            color: DropNote.colors.foreground,
+            fontWeight: FontWeight.w600,
+          ),
           cursorColor: DropNote.colors.primary,
           decoration: InputDecoration(
+            filled: true,
+            fillColor: DropNote.colors.lightGrey,
             isCollapsed: true,
             prefixIcon: Icon(
               Icons.search,
-              color: focusedColor,
+              color: DropNote.colors.foreground,
             ),
-            contentPadding: const EdgeInsets.all(10.0),
-            hintText: "Search...",
-            hintStyle: DropNote.textStyles.main(),
+            alignLabelWithHint: true,
+            hintText: "Search for documents",
+            suffixIcon: IconButton(
+              onPressed: widget.controller.clear,
+              icon: Icon(
+                Icons.clear,
+                color: DropNote.colors.foreground,
+              ),
+            ),
+            hintStyle: DropNote.textStyles.main(
+              fontWeight: FontWeight.w600,
+              color: DropNote.colors.foreground,
+              fontSize: 18,
+            ),
             enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(
-                color: DropNote.colors.grey,
+                color: DropNote.colors.lightGrey,
                 width: 1.0,
               ),
             ),
             focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(
-                color: DropNote.colors.foreground,
+                color: DropNote.colors.lightGrey,
                 width: 2.0,
               ),
             ),
