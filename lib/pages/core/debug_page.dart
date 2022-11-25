@@ -1,7 +1,6 @@
 // ignore_for_file: prefer__ructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/title_bar.dart';
@@ -13,30 +12,27 @@ class DebugPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: DropNote.pagePadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TitleBar(title: "Debug"),
-            Bar(),
-            CreateNewUser(),
-            Bar(),
-            ViewAllUsers(),
-            Bar(),
-            ViewQueriedUsers(),
-            Bar(),
-            UploadFile(),
-            Bar(),
-            SaveFile(),
-            Bar(),
-            UpdateMyFile(),
-            Bar(),
-            ViewAllFiles(),
-            Bar(),
-            ViewQueriedFiles(),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TitleBar(title: "Debug"),
+          Bar(),
+          CreateNewUser(),
+          Bar(),
+          ViewAllUsers(),
+          Bar(),
+          ViewQueriedUsers(),
+          Bar(),
+          UploadFile(),
+          Bar(),
+          SaveFile(),
+          Bar(),
+          UpdateMyFile(),
+          Bar(),
+          ViewAllFiles(),
+          Bar(),
+          ViewQueriedFiles(),
+        ],
       ),
     );
   }
@@ -254,6 +250,13 @@ class _ViewQueriedUsersState extends State<ViewQueriedUsers> {
 
 class UploadFile extends StatelessWidget {
   const UploadFile({super.key});
+
+  void uploadFile() {
+    // pick file
+    // add to storage
+    // add to files
+    // update user > uploaded files
+  }
 
   @override
   Widget build(BuildContext context) {
