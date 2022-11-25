@@ -4,6 +4,8 @@ import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:dropnote/widgets/notification_list_item.dart/RequestItem.dart';
+import 'package:dropnote/widgets/notification_list_item.dart/SavedItem.dart';
 
 class NotificationPage extends StatelessWidget {
 // Author : Otis Jackson IV
@@ -41,97 +43,15 @@ class NotificationPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Wrap(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      width: 290,
-                      child: Text(
-                        'First Lastname has requested Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.amberAccent,
-                        borderRadius: BorderRadius.circular(99.0),
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.black,
-                      ),
-                    )
-                  ],
-                ),
+                child: RequestItem(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      width: 290,
-                      child: Text(
-                        'First Lastname has requested Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.amberAccent,
-                        borderRadius: BorderRadius.circular(99.0),
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.black,
-                      ),
-                    )
-                  ],
-                ),
+                child: RequestItem(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      width: 290,
-                      child: Text(
-                        'First Lastname has requested Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.amberAccent,
-                        borderRadius: BorderRadius.circular(99.0),
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.black,
-                        size: 25,
-                      ),
-                    )
-                  ],
-                ),
+                child: RequestItem(),
               )
             ],
           ),
@@ -153,63 +73,15 @@ class NotificationPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      child: Text(
-                        'First Lastname saved Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
+                child: SavedItem(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      child: Text(
-                        'First Lastname saved Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
+                child: SavedItem(),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.close_sharp,
-                      color: Colors.grey[400],
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Container(
-                      child: Text(
-                        'First Lastname saved Filename.txt',
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
+                child: SavedItem(),
               )
             ],
           ),
