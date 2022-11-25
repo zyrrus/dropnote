@@ -25,6 +25,18 @@ void main() async {
     _configureFirebaseFirestore();
   }
 
+  // Temporary
+  try {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: "nash@lsu.edu", password: "12345678");
+  } catch (ex) {}
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: "nash@lsu.edu",
+      password: "12345678",
+    );
+  } catch (ex) {}
+
   runApp(const DropNoteApp());
 }
 
