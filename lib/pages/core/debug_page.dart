@@ -1,9 +1,14 @@
 // ignore_for_file: prefer__ructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/title_bar.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class DebugPage extends StatelessWidget {
@@ -45,24 +50,26 @@ class Collections {
   static String files = "files";
 }
 
-FirebaseFirestore db = FirebaseFirestore.instance;
+final auth = FirebaseAuth.instance;
+final db = FirebaseFirestore.instance;
+final storage = FirebaseStorage.instance;
 
-class User {
+class DNUser {
   // Make these private + remove named parameters
 
   final String name;
   final String email;
   final String school;
-  final int? totalSaves;
-  final List<DocumentReference>? uploadedFiles;
-  final List<DocumentReference>? savedFiles;
+  int? totalSaves;
+  List<String>? uploadedFiles;
+  List<String>? savedFiles;
 
   String get profilePicture {
     String encodedName = Uri.encodeComponent(name.toLowerCase());
     return "https://avatars.dicebear.com/api/bottts/$encodedName.svg";
   }
 
-  const User({
+  DNUser({
     required this.name,
     required this.email,
     required this.school,
@@ -71,21 +78,21 @@ class User {
     this.savedFiles,
   });
 
-  factory User.fromJson(
+  factory DNUser.fromJson(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
-    return User(
+    return DNUser(
       name: data?['name'],
       email: data?['email'],
       school: data?['school'],
       totalSaves: data?['totalSaves'],
       uploadedFiles: data?['uploadedFiles'] is Iterable
-          ? List<DocumentReference>.from(data?['uploadedFiles'])
+          ? List<String>.from(data?['uploadedFiles'])
           : null,
       savedFiles: data?['savedFiles'] is Iterable
-          ? List<DocumentReference>.from(data?['savedFiles'])
+          ? List<String>.from(data?['savedFiles'])
           : null,
     );
   }
@@ -101,6 +108,50 @@ class User {
       };
 }
 
+class DNFile {
+  final String fileName;
+  final String ownerID;
+  final String ownerName;
+  int? previewPageCount;
+  int? saveCount;
+  List<String>? tags;
+
+  DNFile({
+    required this.fileName,
+    required this.ownerID,
+    required this.ownerName,
+    this.previewPageCount,
+    this.saveCount,
+    this.tags,
+  });
+
+  factory DNFile.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
+    final data = snapshot.data();
+    return DNFile(
+      fileName: data?['fileName'],
+      ownerID: data?['ownerID'],
+      ownerName: data?['ownerName'],
+      previewPageCount: data?['previewPageCount'],
+      saveCount: data?['saveCount'],
+      tags: data?['tags'] is Iterable
+          ? List<String>.from(data?['uploadedFiles'])
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "fileName": fileName,
+        "ownerID": ownerID,
+        "ownerName": ownerName,
+        "previewPageCount": previewPageCount ?? -1,
+        "saveCount": saveCount ?? 0,
+        "tags": tags ?? [],
+      };
+}
+
+// Done
+
 class CreateNewUser extends StatefulWidget {
   const CreateNewUser({super.key});
 
@@ -114,7 +165,7 @@ class _CreateNewUserState extends State<CreateNewUser> {
   final TextEditingController emailController = TextEditingController();
 
   void createUser() {
-    User user = User(
+    DNUser user = DNUser(
       name: nameController.text.trim(),
       school: schoolController.text.trim(),
       email: emailController.text.toLowerCase().trim(),
@@ -153,7 +204,7 @@ class _CreateNewUserState extends State<CreateNewUser> {
   }
 }
 
-//
+// Done
 
 class ViewAllUsers extends StatefulWidget {
   const ViewAllUsers({super.key});
@@ -163,13 +214,13 @@ class ViewAllUsers extends StatefulWidget {
 }
 
 class _ViewAllUsersState extends State<ViewAllUsers> {
-  List<User> allUsers = [];
+  List<DNUser> allUsers = [];
   String? error;
 
   void getAllUsers() {
     db.collection(Collections.users).get().then(
           (res) => setState(() {
-            allUsers = res.docs.map((e) => User.fromJson(e, null)).toList();
+            allUsers = res.docs.map((e) => DNUser.fromJson(e, null)).toList();
           }),
           onError: (e) => setState(() => error = "Error completing: $e"),
         );
@@ -190,7 +241,7 @@ class _ViewAllUsersState extends State<ViewAllUsers> {
   }
 }
 
-//
+// Done
 
 class ViewQueriedUsers extends StatefulWidget {
   const ViewQueriedUsers({super.key});
@@ -200,14 +251,15 @@ class ViewQueriedUsers extends StatefulWidget {
 }
 
 class _ViewQueriedUsersState extends State<ViewQueriedUsers> {
-  List<User> queriedUsers = [];
+  List<DNUser> queriedUsers = [];
   String? error;
   final TextEditingController queryController = TextEditingController();
 
-  Future<List<User>> getAllUsers() async {
-    List<User> allUsers = [];
+  Future<List<DNUser>> getAllUsers() async {
+    List<DNUser> allUsers = [];
     await db.collection(Collections.users).get().then(
-          (res) => allUsers.addAll(res.docs.map((e) => User.fromJson(e, null))),
+          (res) =>
+              allUsers.addAll(res.docs.map((e) => DNUser.fromJson(e, null))),
           onError: (e) => setState(() => error = "Error completing: $e"),
         );
 
@@ -248,14 +300,61 @@ class _ViewQueriedUsersState extends State<ViewQueriedUsers> {
 
 //
 
-class UploadFile extends StatelessWidget {
+class UploadFile extends StatefulWidget {
   const UploadFile({super.key});
 
-  void uploadFile() {
+  @override
+  State<UploadFile> createState() => _UploadFileState();
+}
+
+class _UploadFileState extends State<UploadFile> {
+  Future<PlatformFile?> pickFile() async {
+    final results = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    return results?.files.single;
+  }
+
+  Future<void> uploadFile() async {
     // pick file
+    var fileData = await pickFile();
+    if (fileData is! PlatformFile) return; // Indicate errors
+
+    // Get Firebase references
+    var me = auth.currentUser!;
+    var userRef = db.collection(Collections.users).doc(me.uid);
+    var fileRef = db.collection(Collections.files).doc();
+
+    var userSnap = await userRef.get();
+    if (!userSnap.exists) return;
+
+    DNUser user = DNUser.fromJson(userSnap, null);
+
+    DNFile file = DNFile(
+      fileName: fileData.name,
+      ownerName: user.name,
+      ownerID: me.uid,
+    );
+
+    // add doc to files collection
+    fileRef.set(file.toJson());
+
     // add to storage
-    // add to files
+    String storageName = fileRef.id;
+    File localFile = File(fileData.path!);
+    storage.ref().child(storageName).putFile(localFile);
+
     // update user > uploaded files
+    if (user.uploadedFiles is List<String>) {
+      user.uploadedFiles!.add(storageName);
+    } else {
+      user.uploadedFiles = [storageName];
+    }
+
+    userRef.update(user.toJson());
   }
 
   @override
@@ -263,6 +362,11 @@ class UploadFile extends StatelessWidget {
     return Column(
       children: [
         SubtitleBar(title: "UploadFile"),
+        // TextField(
+        //   decoration: InputDecoration(hintText: "Query", labelText: "Query"),
+        //   controller: previewPagesController,
+        // ),
+        ElevatedButton(onPressed: uploadFile, child: Text("Upload File")),
       ],
     );
   }
