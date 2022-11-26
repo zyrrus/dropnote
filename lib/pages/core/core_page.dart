@@ -36,7 +36,8 @@ class _CorePageState extends State<CorePage> {
               selectedIndex: _selectedPageIndex,
               onTap: changePage,
             ),
-            child: IndexedStack(index: _selectedPageIndex, children: _pages),
+            // child: IndexedStack(index: _selectedPageIndex, children: _pages),
+            child: _pages[_selectedPageIndex],
           )
         : CoreTemplate(child: AuthPage());
   }
