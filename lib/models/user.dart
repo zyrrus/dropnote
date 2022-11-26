@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DNUser {
   final String name;
+  final String userID;
   final String email;
   final String school;
   int? totalSaves;
@@ -15,6 +16,7 @@ class DNUser {
 
   DNUser({
     required this.name,
+    required this.userID,
     required this.email,
     required this.school,
     this.totalSaves,
@@ -29,6 +31,7 @@ class DNUser {
     final data = snapshot.data();
     return DNUser(
       name: data?['name'],
+      userID: data?['userID'],
       email: data?['email'],
       school: data?['school'],
       totalSaves: data?['totalSaves'],
@@ -43,6 +46,7 @@ class DNUser {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "userID": userID,
         "email": email,
         "school": school,
         "profilePicture": profilePicture,

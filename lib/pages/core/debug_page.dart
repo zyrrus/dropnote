@@ -65,19 +65,44 @@ class _CreateNewUserState extends State<CreateNewUser> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  void createUser() {
+  Future<void> createUser() async {
+    String email = emailController.text.toLowerCase().trim();
+    String password = passwordController.text.trim();
+
+    UserCredential uc;
+    try {
+      uc = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (ex) {
+      uc = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } finally {
+      await auth.signOut();
+      await auth.signInWithEmailAndPassword(
+        email: "nash@lsu.edu",
+        password: "12345678",
+      );
+    }
+
     DNUser user = DNUser(
       name: nameController.text.trim(),
+      userID: uc.user!.uid,
       school: schoolController.text.trim(),
-      email: emailController.text.toLowerCase().trim(),
+      email: email,
     );
 
-    db.collection(Collections.users).add(user.toJson());
+    db.collection(Collections.users).doc(user.userID).set(user.toJson());
 
     nameController.clear();
     emailController.clear();
     schoolController.clear();
+    passwordController.clear();
   }
 
   @override
@@ -90,15 +115,22 @@ class _CreateNewUserState extends State<CreateNewUser> {
           decoration: InputDecoration(hintText: "Name", labelText: "Name"),
           controller: nameController,
         ),
+        // School
+        TextField(
+          decoration: InputDecoration(hintText: "School", labelText: "School"),
+          controller: schoolController,
+        ),
         // Email
         TextField(
           decoration: InputDecoration(hintText: "Email", labelText: "Email"),
           controller: emailController,
         ),
-        // School
+        // Password
         TextField(
-          decoration: InputDecoration(hintText: "School", labelText: "School"),
-          controller: schoolController,
+          obscureText: true,
+          decoration:
+              InputDecoration(hintText: "Password", labelText: "Password"),
+          controller: passwordController,
         ),
         ElevatedButton(onPressed: createUser, child: Text("Create User")),
       ],
@@ -237,6 +269,7 @@ class _UploadFileState extends State<UploadFile> {
 
     DNFile file = DNFile(
       fileName: fileData.name,
+      fileID: fileRef.id,
       ownerName: user.name,
       ownerID: me.uid,
     );

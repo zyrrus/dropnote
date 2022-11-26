@@ -2,16 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DNFile {
   final String fileName;
-  final String ownerID;
+  final String fileID;
   final String ownerName;
+  final String ownerID;
   int? previewPageCount;
   int? saveCount;
   List<String>? tags;
 
   DNFile({
     required this.fileName,
-    required this.ownerID,
+    required this.fileID,
     required this.ownerName,
+    required this.ownerID,
     this.previewPageCount,
     this.saveCount,
     this.tags,
@@ -24,8 +26,9 @@ class DNFile {
     final data = snapshot.data();
     return DNFile(
       fileName: data?['fileName'],
-      ownerID: data?['ownerID'],
+      fileID: data?['fileID'],
       ownerName: data?['ownerName'],
+      ownerID: data?['ownerID'],
       previewPageCount: data?['previewPageCount'],
       saveCount: data?['saveCount'],
       tags: data?['tags'] is Iterable
@@ -36,8 +39,9 @@ class DNFile {
 
   Map<String, dynamic> toJson() => {
         "fileName": fileName,
-        "ownerID": ownerID,
+        "fileID": fileID,
         "ownerName": ownerName,
+        "ownerID": ownerID,
         "previewPageCount": previewPageCount ?? -1,
         "saveCount": saveCount ?? 0,
         "tags": tags ?? [],
