@@ -1,16 +1,20 @@
 import 'dart:math';
 
+import 'package:dropnote/api/files.dart';
+import 'package:dropnote/api/schools.dart';
+import 'package:dropnote/pages/core/people_page.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
-import 'package:dropnote/widgets/divider.dart';
+import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/horizontal_list.dart';
 import 'package:dropnote/widgets/search_bar.dart';
 import 'package:dropnote/widgets/tag.dart';
 import 'package:dropnote/widgets/title_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 const tmpTagNames = [
-  "numquam",
+  "numqua!!",
   "maiores",
   "nostrum",
   "lorem",
@@ -72,7 +76,14 @@ class DiscoverPage extends StatelessWidget {
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
           const Divider(),
-          SubtitleBar(title: "People from your school", onIconPressed: () {}),
+          SubtitleBar(
+              title: "People from your school",
+              onIconPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PeoplePage()),
+                );
+              }),
           HorizontalList(children: getPeople()),
           const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),
