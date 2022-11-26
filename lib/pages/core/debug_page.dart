@@ -6,8 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/fire_constants.dart';
 import 'package:dropnote/models/user.dart';
+import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
+import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +27,20 @@ class DebugPage extends StatelessWidget {
         children: [
           TitleBar(title: "Debug"),
           Bar(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SubtitleBar(title: "CurrentlySignedIn"),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: DropNote.pagePadding),
+                child: Text(auth.currentUser?.email ?? "No one is signed in"),
+              ),
+            ],
+          ),
+          Bar(),
           CreateNewUser(),
+          Bar(),
+          SignIn(),
           Bar(),
           ViewAllUsers(),
           Bar(),
@@ -140,6 +155,57 @@ class _CreateNewUserState extends State<CreateNewUser> {
 
 // Done
 
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void signIn() {
+    String email = emailController.text.toLowerCase().trim();
+    String password = passwordController.text.trim();
+
+    auth.signInWithEmailAndPassword(email: email, password: password);
+
+    emailController.clear();
+    passwordController.clear();
+  }
+
+  void signOut() => auth.signOut();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SubtitleBar(title: "SignIn"),
+        // Email
+        TextField(
+          decoration: InputDecoration(hintText: "Email", labelText: "Email"),
+          controller: emailController,
+        ),
+        // Password
+        TextField(
+          obscureText: true,
+          decoration:
+              InputDecoration(hintText: "Password", labelText: "Password"),
+          controller: passwordController,
+        ),
+        ElevatedButton(onPressed: signIn, child: Text("Sign In")),
+        const Bar(),
+        SubtitleBar(title: "SignOut"),
+        ElevatedButton(onPressed: signOut, child: Text("Sign Out")),
+      ],
+    );
+  }
+}
+
+// Done
+
 class ViewAllUsers extends StatefulWidget {
   const ViewAllUsers({super.key});
 
@@ -232,7 +298,7 @@ class _ViewQueriedUsersState extends State<ViewQueriedUsers> {
   }
 }
 
-//
+// Done
 
 class UploadFile extends StatefulWidget {
   const UploadFile({super.key});
@@ -343,14 +409,48 @@ class UpdateMyFile extends StatelessWidget {
 
 //
 
-class ViewAllFiles extends StatelessWidget {
+class ViewAllFiles extends StatefulWidget {
   const ViewAllFiles({super.key});
+
+  @override
+  State<ViewAllFiles> createState() => _ViewAllFilesState();
+}
+
+class _ViewAllFilesState extends State<ViewAllFiles> {
+  List<DNFile> allFiles = [];
+  String? error;
+
+  void getAllFiles() {
+    db.collection(Collections.files).get().then(
+          (res) => setState(() {
+            allFiles = res.docs.map((e) => DNFile.fromJson(e, null)).toList();
+          }),
+          onError: (e) => setState(() => error = "Error completing: $e"),
+        );
+  }
+
+  bool isMyFile(DNFile f) {
+    var me = auth.currentUser;
+    if (me is User) {
+      var myID = auth.currentUser!.uid;
+      return f.ownerID == myID;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SubtitleBar(title: "ViewAllFiles"),
+        ...allFiles
+            .map((e) => FileListItem(
+                fileStyle: (isMyFile(e))
+                    ? FileInfoStyle.uploaded
+                    : FileInfoStyle.saved,
+                fileData: e))
+            .toList(),
+        ElevatedButton(onPressed: getAllFiles, child: Text("View All Files"))
       ],
     );
   }

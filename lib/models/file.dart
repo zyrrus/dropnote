@@ -23,17 +23,15 @@ class DNFile {
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
-    final data = snapshot.data();
+    final data = snapshot.data()!;
     return DNFile(
-      fileName: data?['fileName'],
-      fileID: data?['fileID'],
-      ownerName: data?['ownerName'],
-      ownerID: data?['ownerID'],
-      previewPageCount: data?['previewPageCount'],
-      saveCount: data?['saveCount'],
-      tags: data?['tags'] is Iterable
-          ? List<String>.from(data?['uploadedFiles'])
-          : null,
+      fileName: data['fileName'],
+      fileID: data['fileID'],
+      ownerName: data['ownerName'],
+      ownerID: data['ownerID'],
+      previewPageCount: data['previewPageCount'],
+      saveCount: data['saveCount'],
+      tags: (data['tags'] as List<dynamic>).map((e) => e.toString()).toList(),
     );
   }
 
