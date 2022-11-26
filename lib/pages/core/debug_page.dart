@@ -3,6 +3,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropnote/models/file.dart';
+import 'package:dropnote/models/fire_constants.dart';
+import 'package:dropnote/models/user.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/title_bar.dart';
@@ -45,110 +48,9 @@ class DebugPage extends StatelessWidget {
 
 // === Sub Features ============================================================
 
-class Collections {
-  static String users = "users";
-  static String files = "files";
-}
-
 final auth = FirebaseAuth.instance;
 final db = FirebaseFirestore.instance;
 final storage = FirebaseStorage.instance;
-
-class DNUser {
-  // Make these private + remove named parameters
-
-  final String name;
-  final String email;
-  final String school;
-  int? totalSaves;
-  List<String>? uploadedFiles;
-  List<String>? savedFiles;
-
-  String get profilePicture {
-    String encodedName = Uri.encodeComponent(name.toLowerCase());
-    return "https://avatars.dicebear.com/api/bottts/$encodedName.svg";
-  }
-
-  DNUser({
-    required this.name,
-    required this.email,
-    required this.school,
-    this.totalSaves,
-    this.uploadedFiles,
-    this.savedFiles,
-  });
-
-  factory DNUser.fromJson(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
-  ) {
-    final data = snapshot.data();
-    return DNUser(
-      name: data?['name'],
-      email: data?['email'],
-      school: data?['school'],
-      totalSaves: data?['totalSaves'],
-      uploadedFiles: data?['uploadedFiles'] is Iterable
-          ? List<String>.from(data?['uploadedFiles'])
-          : null,
-      savedFiles: data?['savedFiles'] is Iterable
-          ? List<String>.from(data?['savedFiles'])
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
-        "school": school,
-        "profilePicture": profilePicture,
-        "totalSaves": totalSaves ?? 0,
-        "uploadedFiles": uploadedFiles ?? [],
-        "savedFiles": savedFiles ?? [],
-      };
-}
-
-class DNFile {
-  final String fileName;
-  final String ownerID;
-  final String ownerName;
-  int? previewPageCount;
-  int? saveCount;
-  List<String>? tags;
-
-  DNFile({
-    required this.fileName,
-    required this.ownerID,
-    required this.ownerName,
-    this.previewPageCount,
-    this.saveCount,
-    this.tags,
-  });
-
-  factory DNFile.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options) {
-    final data = snapshot.data();
-    return DNFile(
-      fileName: data?['fileName'],
-      ownerID: data?['ownerID'],
-      ownerName: data?['ownerName'],
-      previewPageCount: data?['previewPageCount'],
-      saveCount: data?['saveCount'],
-      tags: data?['tags'] is Iterable
-          ? List<String>.from(data?['uploadedFiles'])
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "fileName": fileName,
-        "ownerID": ownerID,
-        "ownerName": ownerName,
-        "previewPageCount": previewPageCount ?? -1,
-        "saveCount": saveCount ?? 0,
-        "tags": tags ?? [],
-      };
-}
 
 // Done
 
@@ -362,6 +264,7 @@ class _UploadFileState extends State<UploadFile> {
     return Column(
       children: [
         SubtitleBar(title: "UploadFile"),
+        // TODO: add settings fields (request only...)
         // TextField(
         //   decoration: InputDecoration(hintText: "Query", labelText: "Query"),
         //   controller: previewPagesController,
