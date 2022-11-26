@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "start firebase emulators",
+            "label": "start fresh firebase emulators",
             "command": "firebase emulators:start",
             "type": "shell",
             "problemMatcher": []
@@ -10,6 +10,12 @@
         {
             "label": "start persistent firebase emulators",
             "command": "firebase emulators:start --import=./database",
+            "type": "shell",
+            "problemMatcher": []
+        },
+        {
+            "label": "save data in firebase emulators",
+            "command": "firebase emulators:export database",
             "type": "shell",
             "problemMatcher": []
         }
