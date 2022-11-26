@@ -1,5 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:dropnote/api/file_data.dart';
+import 'package:dropnote/models/file.dart';
+import 'package:dropnote/pages/view_file_page.dart';
 import 'package:dropnote/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:thumbnailer/thumbnailer.dart';
 
 enum FileInfoStyle {
   uploading,
@@ -8,18 +14,14 @@ enum FileInfoStyle {
 }
 
 class FileListItem extends StatelessWidget {
-  final String fileName;
   final FileInfoStyle fileStyle;
-  final String? ownerName; // Leave empty if it is 'my file'
-  final int? numSaves;
+  final DNFile fileData;
   final void Function()? onIconPressed;
 
   const FileListItem({
     super.key,
-    required this.fileName,
     required this.fileStyle,
-    this.ownerName,
-    this.numSaves,
+    required this.fileData,
     this.onIconPressed,
   });
 
@@ -28,12 +30,12 @@ class FileListItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FileThumbnail(),
+        FileThumbnail(fileID: fileData.fileID, fileName: fileData.fileName),
         FileDetails(
           fileStyle: fileStyle,
-          fileName: fileName,
-          numSaves: numSaves ?? 0,
-          ownerName: ownerName ?? "",
+          fileName: fileData.fileName,
+          numSaves: fileData.saveCount ?? 0,
+          ownerName: fileData.ownerName,
           onIconPressed: onIconPressed,
         ),
       ],
@@ -41,20 +43,59 @@ class FileListItem extends StatelessWidget {
   }
 }
 
-class FileThumbnail extends StatelessWidget {
-  const FileThumbnail({super.key});
+class FileThumbnail extends StatefulWidget {
+  final String fileID;
+  final String fileName;
+
+  const FileThumbnail(
+      {super.key, required this.fileID, required this.fileName});
+
+  @override
+  State<FileThumbnail> createState() => _FileThumbnailState();
+}
+
+class _FileThumbnailState extends State<FileThumbnail> {
+  Uint8List? fileData;
+
+  Future<Uint8List> getFileData() async {
+    Uint8List data = await FileDataAPI.loadFromDatabase(widget.fileID);
+    setState(() => fileData = data);
+    return data;
+  }
+
+  void showFileViewer(BuildContext context) {
+    if (fileData != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ViewFilePage(
+            name: widget.fileName,
+            data: fileData!,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: File Thumbnail
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 8.0),
-      child: Placeholder(
-        child: AspectRatio(
-          aspectRatio: 16.0 / 9.0,
-          child: SizedBox.expand(),
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: (fileData is Uint8List)
+          ? GestureDetector(
+              onTap: () => showFileViewer(context),
+              child: Thumbnail(
+                mimeType: 'application/pdf',
+                widgetSize: MediaQuery.of(context).size.width,
+                dataResolver: getFileData,
+              ),
+            )
+          : const Placeholder(
+              child: AspectRatio(
+                aspectRatio: 16.0 / 9.0,
+                child: SizedBox.expand(),
+              ),
+            ),
     );
   }
 }

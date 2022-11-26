@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/api/schools.dart';
+import 'package:dropnote/api/users.dart';
+import 'package:dropnote/models/user.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
@@ -19,30 +21,17 @@ const tmpTagNames = [
   "ipsum",
 ];
 
-const tmpPeopleNames = [
-  "Josephine Pfeffer PhD",
-  "Carolyn Wolff",
-  "Miss Laurence Von",
-  "Dr. Allison Russel",
-  "Sam Kuhic",
-  "Rosie McLaughlin",
-  "Manuel Steuber",
-  "Mitchell Runte",
-  "Debra Hodkiewicz",
-];
-
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
 
   List<Widget> getTags() => tmpTagNames.map((e) => Tag(e)).toList();
 
-  List<Widget> getPeople() => tmpPeopleNames
-      .map((e) => AvatarListItem(
-            label: e,
-            imageURL:
-                "https://avatars.dicebear.com/api/bottts/${Uri.encodeComponent(e)}.svg",
-          ))
-      .toList();
+  Future<List<Widget>> getPeople() async {
+    List<DNUser> users = await UserAPI.getAllUsers();
+    return users
+        .map((e) => AvatarListItem(label: e.name, imageURL: e.profilePicture))
+        .toList();
+  }
 
   Future<List<Widget>> getFiles() async {
     var files = await FileAPI.getAllFiles();
@@ -51,9 +40,8 @@ class DiscoverPage extends StatelessWidget {
               width: 300.0,
               child: FileListItem(
                 fileStyle: FileInfoStyle.saved,
-                fileName: e.fileName,
-                numSaves: e.saveCount,
-                ownerName: e.ownerName,
+                fileData: e,
+                onIconPressed: () {},
               ),
             ))
         .toList();
@@ -76,22 +64,10 @@ class DiscoverPage extends StatelessWidget {
           HorizontalList(spacing: 10.0, children: getTags()),
           const Bar(),
           SubtitleBar(title: "People from your school", onIconPressed: () {}),
-          HorizontalList(children: getPeople()),
+          AsyncHorizontalList(source: getPeople),
           const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),
-          FutureBuilder<List<Widget>>(
-              future: getFiles(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return HorizontalList(children: snapshot.data!);
-                }
-                return const Center(
-                  child: SizedBox.square(
-                    dimension: 100.0,
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }),
+          AsyncHorizontalList(source: getFiles),
           const Bar(),
           const SubtitleBar(title: "Active Schools"),
           HorizontalList(children: getSchools()),
@@ -99,5 +75,28 @@ class DiscoverPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class AsyncHorizontalList extends StatelessWidget {
+  final Future<List<Widget>> Function() source;
+
+  const AsyncHorizontalList({super.key, required this.source});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Widget>>(
+        future: source(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HorizontalList(children: snapshot.data!);
+          }
+          return const Center(
+            child: SizedBox.square(
+              dimension: 100.0,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        });
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dropnote/api/users.dart';
+import 'package:dropnote/models/user.dart';
 import 'package:dropnote/pages/core/core_page.dart';
 import 'package:dropnote/pages/docs_saved_tab.dart';
 import 'package:dropnote/pages/docs_upload_tab.dart';

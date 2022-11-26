@@ -8,30 +8,38 @@ class DocsUploadTab extends StatelessWidget {
   const DocsUploadTab({super.key});
 
   Future<List<Widget>> getFiles(BuildContext context) async {
-    var data = await FileAPI.getMyFiles("1");
-    return data
-        .map((e) => Padding(
-              padding: EdgeInsets.only(bottom: DropNote.pagePadding),
-              child: FileListItem(
-                fileStyle: FileInfoStyle.uploaded,
-                fileName: e.fileName,
-                numSaves: e.saveCount,
-                onIconPressed: () => showModalBottomSheet(
-                  enableDrag: true,
-                  isScrollControlled: true,
-                  backgroundColor: DropNote.colors.background,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(60.0),
-                      topRight: Radius.circular(60.0),
+    try {
+      var data = await FileAPI.getUserFiles();
+      return data
+          .map((e) => Padding(
+                padding: EdgeInsets.only(bottom: DropNote.pagePadding),
+                child: FileListItem(
+                  fileStyle: FileInfoStyle.uploaded,
+                  fileData: e,
+                  onIconPressed: () => showModalBottomSheet(
+                    enableDrag: true,
+                    isScrollControlled: true,
+                    backgroundColor: DropNote.colors.background,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60.0),
+                        topRight: Radius.circular(60.0),
+                      ),
                     ),
+                    context: context,
+                    builder: (context) => DocsBottomSheet(),
                   ),
-                  context: context,
-                  builder: (context) => DocsBottomSheet(),
                 ),
-              ),
-            ))
-        .toList();
+              ))
+          .toList();
+    } catch (ex) {
+      return [
+        Padding(
+          padding: EdgeInsets.only(bottom: DropNote.pagePadding),
+          child: const Text("Could not get files"),
+        )
+      ];
+    }
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/notification_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
@@ -12,15 +11,15 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const TitleBar(title: "Notifications"),
-        const Bar(),
-        const SubtitleBar(title: "Requests"),
+      children: const [
+        TitleBar(title: "Notifications"),
+        Bar(),
+        SubtitleBar(title: "Requests"),
         RequestListItem(who: "First Lastname", what: "Filename.txt"),
         RequestListItem(who: "First Lastname", what: "Filename.txt"),
         RequestListItem(who: "First Lastname", what: "Filename.txt"),
-        const Bar(),
-        const SubtitleBar(title: "Saves"),
+        Bar(),
+        SubtitleBar(title: "Saves"),
         NotificationListItem(text: "First Lastname saved Filename.txt"),
         NotificationListItem(text: "First Lastname saved Filename.txt"),
         NotificationListItem(text: "First Lastname saved Filename.txt"),

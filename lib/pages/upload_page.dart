@@ -1,3 +1,4 @@
+import 'package:dropnote/models/file.dart';
 import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
@@ -34,6 +35,7 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -131,6 +133,9 @@ class SelectFile extends StatefulWidget {
 class _SelectFileState extends State<SelectFile> {
   // TODO: temporary
   bool hasFileSelected = false;
+  DNFile? file;
+
+  void pickFile() {}
 
   @override
   Widget build(BuildContext context) {
@@ -147,21 +152,21 @@ class _SelectFileState extends State<SelectFile> {
               DNIconButton(
                 icon: Icons.drive_file_move_outlined,
                 isLarge: true,
-                onTap: () {},
+                onTap: pickFile,
               ),
             ],
           ),
-          if (hasFileSelected)
+          if (file is DNFile)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Currently selected", style: DropNote.textStyles.h2()),
-                const FileListItem(
+                FileListItem(
                   fileStyle: FileInfoStyle.uploading,
-                  fileName: "test.txt",
+                  fileData: file!,
                 ),
               ],
-            )
+            ),
         ],
       ),
     );

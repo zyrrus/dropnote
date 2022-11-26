@@ -86,7 +86,7 @@ class _CreateNewUserState extends State<CreateNewUser> {
       await auth.signOut();
       await auth.signInWithEmailAndPassword(
         email: "nash@lsu.edu",
-        password: "12345678",
+        password: "123456",
       );
     }
 
@@ -280,7 +280,10 @@ class _UploadFileState extends State<UploadFile> {
     // add to storage
     String storageName = fileRef.id;
     File localFile = File(fileData.path!);
-    storage.ref().child(storageName).putFile(localFile);
+    storage.ref().child(storageName).putFile(
+          localFile,
+          SettableMetadata(contentType: 'application/pdf'),
+        );
 
     // update user > uploaded files
     if (user.uploadedFiles is List<String>) {
