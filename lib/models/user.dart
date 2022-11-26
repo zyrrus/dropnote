@@ -28,18 +28,18 @@ class DNUser {
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
-    final data = snapshot.data();
+    final data = snapshot.data()!;
     return DNUser(
-      name: data?['name'],
-      userID: data?['userID'],
-      email: data?['email'],
-      school: data?['school'],
-      totalSaves: data?['totalSaves'],
-      uploadedFiles: data?['uploadedFiles'] is Iterable
-          ? List<String>.from(data?['uploadedFiles'])
+      name: data['name'],
+      userID: data['userID'],
+      email: data['email'],
+      school: data['school'],
+      totalSaves: data['totalSaves'],
+      uploadedFiles: data['uploadedFiles'] is Iterable
+          ? List<String>.from(data['uploadedFiles'])
           : null,
-      savedFiles: data?['savedFiles'] is Iterable
-          ? List<String>.from(data?['savedFiles'])
+      savedFiles: data['savedFiles'] is Iterable
+          ? List<String>.from(data['savedFiles'])
           : null,
     );
   }
