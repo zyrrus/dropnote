@@ -43,6 +43,8 @@ class FileListItem extends StatelessWidget {
   }
 }
 
+//
+
 class FileThumbnail extends StatefulWidget {
   final String fileID;
   final String fileName;
@@ -78,16 +80,35 @@ class _FileThumbnailState extends State<FileThumbnail> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getFileData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double x = MediaQuery.of(context).size.width;
+    double y = (x * 9.0) / 16.0;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: (fileData is Uint8List)
           ? GestureDetector(
               onTap: () => showFileViewer(context),
-              child: Thumbnail(
-                mimeType: 'application/pdf',
-                widgetSize: MediaQuery.of(context).size.width,
-                dataResolver: getFileData,
+              child: Container(
+                height: y,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Thumbnail(
+                  decoration: WidgetDecoration(
+                    backgroundColor: DropNote.colors.lightGrey.withOpacity(0.5),
+                  ),
+                  mimeType: 'application/pdf',
+                  widgetSize: x,
+                  dataResolver: getFileData,
+                ),
               ),
             )
           : const Placeholder(
@@ -99,6 +120,8 @@ class _FileThumbnailState extends State<FileThumbnail> {
     );
   }
 }
+
+//
 
 class FileDetails extends StatelessWidget {
   final FileInfoStyle fileStyle;

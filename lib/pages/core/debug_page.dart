@@ -48,8 +48,6 @@ class DebugPage extends StatelessWidget {
           Bar(),
           UploadFile(),
           Bar(),
-          SaveFile(),
-          Bar(),
           UpdateMyFile(),
           Bar(),
           ViewAllFiles(),
@@ -379,21 +377,6 @@ class _UploadFileState extends State<UploadFile> {
 
 //
 
-class SaveFile extends StatelessWidget {
-  const SaveFile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SubtitleBar(title: "SaveFile"),
-      ],
-    );
-  }
-}
-
-//
-
 class UpdateMyFile extends StatelessWidget {
   const UpdateMyFile({super.key});
 
@@ -407,7 +390,7 @@ class UpdateMyFile extends StatelessWidget {
   }
 }
 
-//
+// Done
 
 class ViewAllFiles extends StatefulWidget {
   const ViewAllFiles({super.key});

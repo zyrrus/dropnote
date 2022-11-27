@@ -47,7 +47,7 @@ class FileAPI {
 
     List<DNFile> fileData = [];
     if (user.savedFiles is List<String>) {
-      fileData = await FileAPI.getFilesFromList(user.uploadedFiles!);
+      fileData = await FileAPI.getFilesFromList(user.savedFiles!);
     }
 
     return fileData;
