@@ -21,7 +21,6 @@ dependencies:
     alh_pdf_view: ^1.1.0
     thumbnailer: ^2.1.0
     flutter_svg: ^1.1.6
-    animated_text_kit: ^4.2.2
 
 dev_dependencies:
     flutter_test:
