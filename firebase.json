@@ -42,6 +42,7 @@
     },
     "hosting": {
       "port": 5000
-    }
+    },
+    "singleProjectMode": true
   }
 }
