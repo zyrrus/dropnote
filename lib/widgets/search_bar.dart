@@ -1,5 +1,10 @@
+import 'dart:async';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:dropnote/theme.dart';
+
+const dftSearchText = [];
 
 class SearchBar extends StatefulWidget {
   final TextEditingController controller;
@@ -13,12 +18,43 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   Color focusedColor = DropNote.colors.lightGrey;
   bool showClearButton = false;
+  final List<String> animatedText = [
+    "Search for documents",
+    "Search for schools",
+    "Search for people",
+    "Search for tags"
+  ];
+  int animationIndex = 0;
+  Timer? timer;
 
   void updateFocusedColor(bool hasFocus) {
     setState(() {
       focusedColor =
           hasFocus ? DropNote.colors.foreground : DropNote.colors.lightGrey;
     });
+  }
+
+  void updateAnimationIndex() {
+    setState(() {
+      if (animationIndex < animatedText.length - 1) {
+        animationIndex++;
+      } else {
+        animationIndex = 0;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        const Duration(seconds: 2), (Timer t) => updateAnimationIndex());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -44,7 +80,7 @@ class _SearchBarState extends State<SearchBar> {
               color: DropNote.colors.foreground,
             ),
             alignLabelWithHint: true,
-            hintText: "Search for documents",
+            hintText: animatedText[animationIndex],
             suffixIcon: IconButton(
               onPressed: widget.controller.clear,
               icon: Icon(
