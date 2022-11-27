@@ -1,13 +1,15 @@
+import 'package:alh_pdf_view/lib.dart';
 import 'package:dropnote/pages/core/core_page.dart';
+import 'package:dropnote/theme.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class ViewFilePage extends StatelessWidget {
-  final String? name;
-  final Uint8List? data;
+  final String name;
+  final Uint8List data;
 
-  const ViewFilePage({super.key, this.name, this.data});
+  const ViewFilePage({super.key, required this.name, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +17,44 @@ class ViewFilePage extends StatelessWidget {
       child: Column(
         children: [
           TitleBar(
-            title: "TODO: ViewFilePage",
+            title: name,
             showBackButton: true,
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  color: DropNote.colors.lightGrey,
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: FileViewer(fileData: data),
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class FileViewer extends StatefulWidget {
+  final Uint8List fileData;
+
+  const FileViewer({Key? key, required this.fileData}) : super(key: key);
+
+  @override
+  State<FileViewer> createState() => _FileViewerState();
+}
+
+class _FileViewerState extends State<FileViewer> with WidgetsBindingObserver {
+  @override
+  Widget build(BuildContext context) {
+    return AlhPdfView(
+      bytes: widget.fileData,
+      swipeHorizontal: false,
+      fitEachPage: true,
+      autoSpacing: true,
+      // defaultZoomFactor: 0.9,
+      fitPolicy: FitPolicy.width,
+      backgroundColor: DropNote.colors.clear,
     );
   }
 }
