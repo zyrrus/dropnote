@@ -46,6 +46,7 @@ class _TitleBar extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 8.0),
                     getTitle(),
                   ],
                 )
