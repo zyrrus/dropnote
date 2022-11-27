@@ -8,8 +8,14 @@ import 'package:flutter/widgets.dart';
 class ViewFilePage extends StatelessWidget {
   final String name;
   final Uint8List data;
+  final bool isPreview;
 
-  const ViewFilePage({super.key, required this.name, required this.data});
+  const ViewFilePage({
+    super.key,
+    required this.name,
+    required this.data,
+    this.isPreview = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +61,14 @@ class _FileViewerState extends State<FileViewer> with WidgetsBindingObserver {
       // defaultZoomFactor: 0.9,
       fitPolicy: FitPolicy.width,
       backgroundColor: DropNote.colors.clear,
+      // enableSwipe: true,
+
+      onPageChanged: (page, total) {
+        // if page >= previewPages then
+        // enableSwipe: false
+        // this will probably result in the user not being able to swipe up
+        // (so no swiping at all, but that's fine for the demo )
+      },
     );
   }
 }
