@@ -1,9 +1,9 @@
-import 'dart:math';
-
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/api/schools.dart';
-import 'package:dropnote/api/users.dart';
+import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/user.dart';
+import 'package:dropnote/pages/core/people_page.dart';
+import 'package:dropnote/api/users.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
@@ -14,34 +14,58 @@ import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
 
 const tmpTagNames = [
-  "numquam",
+  "numqua!!",
   "maiores",
   "nostrum",
   "lorem",
   "ipsum",
 ];
 
-class DiscoverPage extends StatelessWidget {
+class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
 
+  @override
+  State<DiscoverPage> createState() => _DiscoverPageState();
+}
+
+class _DiscoverPageState extends State<DiscoverPage> {
   List<Widget> getTags() => tmpTagNames.map((e) => Tag(e)).toList();
+  List<DNUser> people = [];
+  List<DNFile> files = [];
 
   Future<List<Widget>> getPeople() async {
-    List<DNUser> users = await UserAPI.getAllUsers();
-    return users
+    List<DNUser> people = await UserAPI.getAllUsers();
+    setState(() => this.people = people);
+    return people
         .map((e) => AvatarListItem(label: e.name, imageURL: e.profilePicture))
         .toList();
   }
 
   Future<List<Widget>> getFiles() async {
     var files = await FileAPI.getAllFiles();
+    var me = await UserAPI.getCurrent();
+
+    FileInfoStyle getStyle(String otherID) {
+      bool isMine = me.uploadedFiles?.contains(otherID) ?? false;
+      bool isSaved = me.savedFiles?.contains(otherID) ?? false;
+
+      if (isMine) {
+        return FileInfoStyle.uploadedDoc;
+      } else if (isSaved) {
+        return FileInfoStyle.deleteableDoc;
+      } else {
+        return FileInfoStyle.saveableDoc;
+      }
+    }
+
+    setState(() => this.files = files);
     return files
         .map((e) => SizedBox(
               width: 300.0,
               child: FileListItem(
-                fileStyle: FileInfoStyle.saved,
+                height: 300.0 * 9.0 / 16.0,
+                fileStyle: getStyle(e.fileID),
                 fileData: e,
-                onIconPressed: () {},
               ),
             ))
         .toList();
@@ -62,8 +86,17 @@ class DiscoverPage extends StatelessWidget {
           const Bar(),
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
-          const Bar(),
-          SubtitleBar(title: "People from your school", onIconPressed: () {}),
+          const Divider(),
+          SubtitleBar(
+              title: "People from your school",
+              onIconPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PeoplePage(people: people),
+                  ),
+                );
+              }),
           AsyncHorizontalList(source: getPeople),
           const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),

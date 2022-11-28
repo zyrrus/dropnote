@@ -41,7 +41,6 @@ class UserAPI {
 
   static Future<void> signup(
       String email, String password, String name, String school) async {
-    UserCredential uc;
     try {
       // Create user in Auth
       UserCredential uc = await auth.createUserWithEmailAndPassword(
@@ -63,5 +62,15 @@ class UserAPI {
     } catch (ex) {
       print("Could not sign up");
     }
+  }
+
+  static Future<void> updateUser(DNUser newUser) async {
+    var id = newUser.userID;
+
+    if (newUser.totalSaves is int && newUser.totalSaves! < 0) {
+      newUser.totalSaves = 0;
+    }
+
+    await db.collection(Collections.users).doc(id).update(newUser.toJson());
   }
 }
