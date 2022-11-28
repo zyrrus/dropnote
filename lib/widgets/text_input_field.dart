@@ -6,6 +6,8 @@ class TextInputField extends StatefulWidget {
   final String label;
   final bool obscureText;
   final Widget? prefixIcon;
+  final void Function(String)? onSubmit;
+  final FocusNode? textFocusNode;
 
   const TextInputField({
     super.key,
@@ -13,6 +15,8 @@ class TextInputField extends StatefulWidget {
     required this.label,
     this.obscureText = false,
     this.prefixIcon,
+    this.onSubmit,
+    this.textFocusNode,
   });
 
   @override
@@ -57,6 +61,8 @@ class _TextInputFieldState extends State<TextInputField> {
       child: SizedBox(
         height: 40.0,
         child: TextField(
+          focusNode: widget.textFocusNode,
+          onSubmitted: widget.onSubmit,
           textAlignVertical: TextAlignVertical.center,
           controller: widget.controller,
           obscureText: widget.obscureText,
