@@ -16,7 +16,7 @@ class CorePage extends StatefulWidget {
 }
 
 class _CorePageState extends State<CorePage> {
-  bool overrideAuth = false;
+  bool overrideAuth = true;
   int _selectedPageIndex = 0;
 
   final List<Widget> _pages = const [

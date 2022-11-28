@@ -6,12 +6,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AvatarListItem extends StatelessWidget {
   final String imageURL;
   final String label;
+  final double avatarHeight;
+  final double avatarWidth;
 
-  const AvatarListItem({
-    super.key,
-    required this.imageURL,
-    required this.label,
-  });
+  const AvatarListItem(
+      {super.key,
+      required this.imageURL,
+      required this.label,
+      this.avatarHeight = 70.0,
+      this.avatarWidth = 70.0});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +32,8 @@ class AvatarListItem extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: UrlDisplay(
             imageURL,
-            width: 70.0,
-            height: 70.0,
+            width: avatarHeight,
+            height: avatarWidth,
             fit: BoxFit.cover,
           ),
         ),
