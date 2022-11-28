@@ -1,66 +1,64 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
+import 'package:dropnote/api/users.dart';
+import 'package:dropnote/models/file.dart';
+import 'package:dropnote/models/fire_constants.dart';
+import 'package:dropnote/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class FileDetails {
-  final String url;
-  final String fileName;
-  final String fileID;
-  final String ownerName;
-  final String ownerID;
-  final int saveCount;
-  final List<dynamic> tags;
-  final bool isRequestOnly;
-  final int previewPageCount;
-
-  FileDetails({
-    required this.url,
-    required this.fileName,
-    required this.fileID,
-    required this.ownerName,
-    required this.ownerID,
-    required this.saveCount,
-    required this.isRequestOnly,
-    required this.tags,
-    required this.previewPageCount,
-  });
-
-  factory FileDetails.fromJSON(String fileID, dynamic json) {
-    return FileDetails(
-      // get url by combining ownername + filename
-      url: json['ownerName'] + json['fileName'],
-      fileName: json['fileName'],
-      fileID: fileID,
-      ownerName: json['ownerName'],
-      ownerID: json['ownerID'],
-      saveCount: json['saveCount'],
-      isRequestOnly: json['isRequestOnly'],
-      tags: json['tags'],
-      previewPageCount: json['previewPageCount'],
-    );
-  }
-}
+final auth = FirebaseAuth.instance;
+final db = FirebaseFirestore.instance;
+final storage = FirebaseStorage.instance;
 
 class FileAPI {
-  static Future<List<FileDetails>> getAllFiles() async {
-    // Read json data
-    var file = await rootBundle.loadString('assets/fake_data/files.json');
-    var json = jsonDecode(file) as Map;
+  static Future<DNUser> _currentOrUserID({String? userID}) async {
+    // Get current user if there's no userID
+    DNUser user;
 
-    // Convert JSON to FileDetails
-    List<FileDetails> files = [];
-    json.forEach((k, v) => files.add(FileDetails.fromJSON(k, v)));
+    if (userID is String) {
+      var userData = await db.collection(Collections.users).doc(userID).get();
+      user = DNUser.fromJson(userData, null);
+    } else {
+      user = await UserAPI.getCurrent();
+    }
 
-    return files;
+    return user;
   }
 
-  static Future<List<FileDetails>> getMyFiles(String userID) async {
-    List<FileDetails> files = await getAllFiles();
-    return files.where((e) => e.ownerID == userID).toList();
+  static Future<List<DNFile>> getAllFiles({bool download = false}) async {
+    var rawData = await db.collection(Collections.files).get();
+    var files = rawData.docs.map((e) => DNFile.fromJson(e, null));
+    return files.toList();
   }
 
-  static Future<List<FileDetails>> getSavedFiles(String userID) async {
-    // TODO: This method is not implemented correctly
-    List<FileDetails> files = await getAllFiles();
-    return files.where((e) => e.ownerID != userID).toList();
+  static Future<List<DNFile>> getUserFiles({String? userID}) async {
+    DNUser user = await _currentOrUserID(userID: userID);
+
+    List<DNFile> fileData = [];
+    if (user.uploadedFiles is List<String>) {
+      fileData = await FileAPI.getFilesFromList(user.uploadedFiles!);
+    }
+
+    return fileData;
+  }
+
+  static Future<List<DNFile>> getSavedFiles({String? userID}) async {
+    DNUser user = await _currentOrUserID(userID: userID);
+
+    List<DNFile> fileData = [];
+    if (user.savedFiles is List<String>) {
+      fileData = await FileAPI.getFilesFromList(user.savedFiles!);
+    }
+
+    return fileData;
+  }
+
+  static Future<List<DNFile>> getFilesFromList(List<String> fileIdList) async {
+    var rawData = await db
+        .collection(Collections.files)
+        .where("fileID", whereIn: fileIdList)
+        .get();
+    var files = rawData.docs.map((e) => DNFile.fromJson(e, null));
+    return files.toList();
   }
 }

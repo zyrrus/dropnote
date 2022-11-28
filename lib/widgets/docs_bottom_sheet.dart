@@ -1,3 +1,4 @@
+import 'package:dropnote/theme.dart';
 import 'package:flutter/material.dart';
 
 class DocsBottomSheet extends StatelessWidget {
@@ -7,10 +8,15 @@ class DocsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
-      child: Center(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 58.0,
+          left: DropNote.pagePadding,
+          right: DropNote.pagePadding,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('BottomSheet'),
           ],

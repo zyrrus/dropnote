@@ -19,7 +19,7 @@ class _TitleBar extends StatelessWidget {
 
   Widget getTitle() => Text(
         title,
-        style: isLarge ? DropNote.textStyles.h1() : DropNote.textStyles.h2(),
+        style: isLarge ? DropNote.textStyles.h1 : DropNote.textStyles.h2,
       );
 
   @override

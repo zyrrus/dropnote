@@ -16,14 +16,18 @@ class DNIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 35.0,
-      height: 35.0,
+      width: isLarge ? 75.0 : 35.0,
+      height: isLarge ? 75.0 : 35.0,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: DropNote.colors.primary,
       ),
       child: IconButton(
-        icon: Icon(icon, size: 20.0),
+        icon: Icon(
+          icon,
+          color: DropNote.colors.foreground,
+          size: isLarge ? 40.0 : 20.0,
+        ),
         onPressed: onTap,
       ),
     );
