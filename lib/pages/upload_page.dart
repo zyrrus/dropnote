@@ -6,6 +6,7 @@ import 'package:dropnote/widgets/icon_button.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
@@ -68,13 +69,28 @@ class _UploadPageState extends State<UploadPage> {
             ),
           ),
           const Bar(),
-          UploadSettingListItem(
-            title: "Preview pages",
-            subtitle: "Number of pages visible before saving",
-            icon: Icon(
-              Icons.looks_one_outlined,
-              color: DropNote.colors.foreground,
-              size: 32,
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, DropNote.pagePadding, 0),
+            child: Row(
+              children: [
+                const UploadSettingListItem(
+                  title: "Preview pages",
+                  subtitle: "Number of pages visible before saving",
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    style:
+                        DropNote.textStyles.main(fontWeight: FontWeight.w600),
+                    keyboardType: TextInputType.number,
+                    maxLength: 1,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const Bar(),
