@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/api/schools.dart';
+import 'package:dropnote/models/file.dart';
+import 'package:dropnote/models/user.dart';
 import 'package:dropnote/pages/core/people_page.dart';
 import 'package:dropnote/api/users.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
@@ -12,7 +14,6 @@ import 'package:dropnote/widgets/search_bar.dart';
 import 'package:dropnote/widgets/tag.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 const tmpTagNames = [
   "numqua!!",
@@ -22,20 +23,29 @@ const tmpTagNames = [
   "ipsum",
 ];
 
-class DiscoverPage extends StatelessWidget {
+class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
 
+  @override
+  State<DiscoverPage> createState() => _DiscoverPageState();
+}
+
+class _DiscoverPageState extends State<DiscoverPage> {
   List<Widget> getTags() => tmpTagNames.map((e) => Tag(e)).toList();
+  List<DNUser> people = [];
+  List<DNFile> files = [];
 
   Future<List<Widget>> getPeople() async {
-    List<DNUser> users = await UserAPI.getAllUsers();
-    return users
+    List<DNUser> people = await UserAPI.getAllUsers();
+    setState(() => this.people = people);
+    return people
         .map((e) => AvatarListItem(label: e.name, imageURL: e.profilePicture))
         .toList();
   }
 
   Future<List<Widget>> getFiles() async {
     var files = await FileAPI.getAllFiles();
+    setState(() => this.files = files);
     return files
         .map((e) => SizedBox(
               width: 300.0,
@@ -69,10 +79,12 @@ class DiscoverPage extends StatelessWidget {
               onIconPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PeoplePage()),
+                  MaterialPageRoute(
+                    builder: (context) => PeoplePage(people: people),
+                  ),
                 );
               }),
-          HorizontalList(children: getPeople()),
+          AsyncHorizontalList(source: getPeople),
           const Bar(),
           SubtitleBar(title: "Popular Files", onIconPressed: () {}),
           AsyncHorizontalList(source: getFiles),
