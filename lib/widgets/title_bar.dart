@@ -37,7 +37,7 @@ class _TitleBar extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundColor: Color.fromARGB(176, 219, 159, 9),
+                      backgroundColor: DropNote.colors.primary,
                       child: IconButton(
                         onPressed: () => Navigator.pop(context),
                         icon: Icon(
@@ -67,13 +67,6 @@ class TitleBar extends StatelessWidget {
   final bool isLarge;
   final void Function()? onIconPressed;
 
-  // Attempt to add padding to modular file 
-  // final double? padding_left = 1.0;
-  // final double? padding_right;
-  // final double? padding_top;
-  // final double? padding_bottom;
-
-
   const TitleBar({
     super.key,
     required this.title,
@@ -81,19 +74,12 @@ class TitleBar extends StatelessWidget {
     this.suffixIcon,
     this.isLarge = true,
     this.onIconPressed,
-    
-    // delete if it doesn't work
-    // this.padding_left,
-    // this.padding_right,
-    // this.padding_top,
-    // this.padding_bottom,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-          left: 1, top: 20, bottom: 20),
+      padding: const EdgeInsets.only(left: 1, top: 20, bottom: 20),
       child: _TitleBar(
         title: title,
         showBackButton: showBackButton,

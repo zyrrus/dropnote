@@ -109,4 +109,23 @@ class FileAPI {
 
     await db.collection(Collections.files).doc(id).update(newFile.toJson());
   }
+
+  static Future<DNFile> uploadFile(String fileName, DNUser owner,
+      int previewPageCount, List<String> tags) async {
+    var fileRef = db.collection(Collections.files).doc();
+
+    DNFile file = DNFile(
+      fileName: fileName,
+      fileID: fileRef.id,
+      ownerName: owner.name,
+      ownerID: owner.userID,
+      previewPageCount: previewPageCount,
+      tags: tags,
+    );
+
+    // add doc to files collection
+    await fileRef.set(file.toJson());
+
+    return file;
+  }
 }

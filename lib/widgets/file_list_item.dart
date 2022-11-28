@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:dropnote/api/file_data.dart';
+import 'package:dropnote/api/storage.dart';
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/pages/view_file_page.dart';
@@ -124,7 +124,7 @@ class _FileThumbnailState extends State<FileThumbnail> {
   Uint8List? fileData;
 
   Future<Uint8List> getFileData() async {
-    Uint8List data = await FileDataAPI.loadFromDatabase(widget.fileID);
+    Uint8List data = await StorageAPI.downloadFile(widget.fileID);
     setState(() => fileData = data);
     return data;
   }

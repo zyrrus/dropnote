@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropnote/api/storage.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/fire_constants.dart';
 import 'package:dropnote/models/user.dart';
@@ -342,18 +343,13 @@ class _UploadFileState extends State<UploadFile> {
     fileRef.set(file.toJson());
 
     // add to storage
-    String storageName = fileRef.id;
-    File localFile = File(fileData.path!);
-    storage.ref().child(storageName).putFile(
-          localFile,
-          SettableMetadata(contentType: 'application/pdf'),
-        );
+    await StorageAPI.uploadFile(fileData, fileRef.id);
 
     // update user > uploaded files
     if (user.uploadedFiles is List<String>) {
-      user.uploadedFiles!.add(storageName);
+      user.uploadedFiles!.add(fileRef.id);
     } else {
-      user.uploadedFiles = [storageName];
+      user.uploadedFiles = [fileRef.id];
     }
 
     userRef.update(user.toJson());
