@@ -40,11 +40,7 @@ class _TextInputFieldState extends State<TextInputField> {
     super.dispose();
   }
 
-  TextStyle textStyle() => DropNote.textStyles.main(
-        color: DropNote.colors.foreground,
-        fontWeight: FontWeight.w600,
-        fontSize: 18.0,
-      );
+  TextStyle textStyle() => DropNote.textStyles.h3;
 
   InputBorder border() => OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),

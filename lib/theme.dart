@@ -28,15 +28,26 @@ class _TextStyles {
 
   // === Commonly used text styles =============================================
 
-  TextStyle h1() => main(
+  TextStyle get h1 => main(
         color: DropNote.colors.foreground,
         fontWeight: FontWeight.w600,
         fontSize: 32,
       );
 
-  TextStyle h2() => main(fontWeight: FontWeight.w600, fontSize: 24);
+  TextStyle get h2 => main(fontWeight: FontWeight.w600, fontSize: 24);
 
-  TextStyle s1() => main(
+  TextStyle get h3 => main(
+        color: DropNote.colors.foreground,
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+      );
+
+  TextStyle get p => main(
+        color: DropNote.colors.foreground,
+        fontSize: 16,
+      );
+
+  TextStyle get s1 => main(
         color: DropNote.colors.darkGrey,
         fontWeight: FontWeight.w500,
         fontSize: 16,

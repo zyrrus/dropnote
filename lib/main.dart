@@ -12,6 +12,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -24,18 +26,6 @@ void main() async {
     await _configureFirebaseStorage();
     _configureFirebaseFirestore();
   }
-
-  // Temporary
-  // try {
-  //   await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  //       email: "nash@lsu.edu", password: "12345678");
-  // } catch (ex) {}
-  // try {
-  //   await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //     email: "nash@lsu.edu",
-  //     password: "12345678",
-  //   );
-  // } catch (ex) {}
 
   runApp(const DropNoteApp());
 }
@@ -52,6 +42,7 @@ class _DropNoteAppState extends State<DropNoteApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       theme: Theme.of(context).copyWith(
         scaffoldBackgroundColor: DropNote.colors.background,
       ),

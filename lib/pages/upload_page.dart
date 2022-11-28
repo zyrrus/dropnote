@@ -112,8 +112,8 @@ class UploadSettingListItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: DropNote.textStyles.h2()),
-              Text(subtitle ?? "", style: DropNote.textStyles.s1()),
+              Text(title, style: DropNote.textStyles.h2),
+              Text(subtitle ?? "", style: DropNote.textStyles.s1),
             ],
           ),
           if (icon is Widget) icon!,
@@ -148,7 +148,7 @@ class _SelectFileState extends State<SelectFile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Select a file", style: DropNote.textStyles.h1()),
+              Text("Select a file", style: DropNote.textStyles.h1),
               DNIconButton(
                 icon: Icons.drive_file_move_outlined,
                 isLarge: true,
@@ -160,7 +160,7 @@ class _SelectFileState extends State<SelectFile> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Currently selected", style: DropNote.textStyles.h2()),
+                Text("Currently selected", style: DropNote.textStyles.h2),
                 FileListItem(
                   fileStyle: FileInfoStyle.uploading,
                   fileData: file!,
