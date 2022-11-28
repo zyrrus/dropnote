@@ -45,14 +45,29 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   Future<List<Widget>> getFiles() async {
     var files = await FileAPI.getAllFiles();
+    var me = await UserAPI.getCurrent();
+
+    FileInfoStyle getStyle(String otherID) {
+      bool isMine = me.uploadedFiles?.contains(otherID) ?? false;
+      bool isSaved = me.savedFiles?.contains(otherID) ?? false;
+
+      if (isMine) {
+        return FileInfoStyle.uploadedDoc;
+      } else if (isSaved) {
+        return FileInfoStyle.deleteableDoc;
+      } else {
+        return FileInfoStyle.saveableDoc;
+      }
+    }
+
     setState(() => this.files = files);
     return files
         .map((e) => SizedBox(
               width: 300.0,
               child: FileListItem(
-                fileStyle: FileInfoStyle.saved,
+                height: 300.0 * 9.0 / 16.0,
+                fileStyle: getStyle(e.fileID),
                 fileData: e,
-                onIconPressed: () {},
               ),
             ))
         .toList();
