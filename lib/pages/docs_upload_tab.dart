@@ -27,7 +27,7 @@ class DocsUploadTab extends StatelessWidget {
                       ),
                     ),
                     context: context,
-                    builder: (context) => DocsBottomSheet(),
+                    builder: (context) => DocsBottomSheet(fileData: e),
                   ),
                 ),
               ))
