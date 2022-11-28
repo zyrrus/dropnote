@@ -239,6 +239,13 @@ class _SelectFileState extends State<SelectFile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Currently selected", style: DropNote.textStyles.h2),
+<<<<<<< HEAD
+=======
+                FileListItem(
+                  fileStyle: FileInfoStyle.uploadingFile,
+                  fileData: file!,
+                ),
+>>>>>>> parent of 3968448 (Revert "Merge branch 'develop' of https://github.com/zyrrus/dropnote into develop")
               ],
             ),
         ],
