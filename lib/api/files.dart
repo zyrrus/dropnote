@@ -2,7 +2,6 @@ import 'package:dropnote/api/users.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/fire_constants.dart';
 import 'package:dropnote/models/user.dart';
-import 'package:dropnote/pages/core/debug_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
