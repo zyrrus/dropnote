@@ -14,6 +14,7 @@ class _TitleBar extends StatelessWidget {
     this.showBackButton = false,
     this.suffixIcon,
     this.isLarge = true,
+    void Function()? onTap,
   });
 
   Widget getTitle() => Text(
@@ -34,19 +35,19 @@ class _TitleBar extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: DropNote.colors.primary,
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Color.fromARGB(176, 219, 159, 9),
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.arrow_back_ios_rounded,
                           size: 20.0,
                           color: DropNote.colors.foreground,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8.0),
+                    const Padding(padding: EdgeInsets.only(right: 15)),
                     getTitle(),
                   ],
                 )
@@ -64,6 +65,14 @@ class TitleBar extends StatelessWidget {
   final bool showBackButton;
   final Widget? suffixIcon;
   final bool isLarge;
+  final void Function()? onIconPressed;
+
+  // Attempt to add padding to modular file 
+  // final double? padding_left = 1.0;
+  // final double? padding_right;
+  // final double? padding_top;
+  // final double? padding_bottom;
+
 
   const TitleBar({
     super.key,
@@ -71,17 +80,26 @@ class TitleBar extends StatelessWidget {
     this.showBackButton = false,
     this.suffixIcon,
     this.isLarge = true,
+    this.onIconPressed,
+    
+    // delete if it doesn't work
+    // this.padding_left,
+    // this.padding_right,
+    // this.padding_top,
+    // this.padding_bottom,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+      padding: const EdgeInsets.only(
+          left: 1, top: 20, bottom: 20),
       child: _TitleBar(
         title: title,
         showBackButton: showBackButton,
         suffixIcon: suffixIcon,
         isLarge: isLarge,
+        onTap: onIconPressed,
       ),
     );
   }
