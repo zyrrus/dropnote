@@ -178,7 +178,7 @@ class _SelectFileState extends State<SelectFile> {
               children: [
                 Text("Currently selected", style: DropNote.textStyles.h2),
                 FileListItem(
-                  fileStyle: FileInfoStyle.uploadingFile,
+                  fileStyle: FileInfoStyle.uploading,
                   fileData: file!,
                 ),
               ],

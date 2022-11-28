@@ -1,101 +1,42 @@
 import 'dart:typed_data';
 
 import 'package:dropnote/api/file_data.dart';
-import 'package:dropnote/api/files.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/pages/view_file_page.dart';
 import 'package:dropnote/theme.dart';
-import 'package:dropnote/widgets/docs_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:thumbnailer/thumbnailer.dart';
 
 enum FileInfoStyle {
-  uploadingFile,
-  uploadedDoc,
-  saveableDoc,
-  deleteableDoc,
+  uploading,
+  uploaded,
+  saved,
 }
 
-class FileListItem extends StatefulWidget {
+class FileListItem extends StatelessWidget {
   final FileInfoStyle fileStyle;
   final DNFile fileData;
-  final double? height;
+  final void Function()? onIconPressed;
 
   const FileListItem({
     super.key,
     required this.fileStyle,
     required this.fileData,
-    this.height,
+    this.onIconPressed,
   });
-
-  @override
-  State<FileListItem> createState() => _FileListItemState();
-}
-
-class _FileListItemState extends State<FileListItem> {
-  late FileInfoStyle _fileStyle;
-
-  @override
-  void initState() {
-    _fileStyle = widget.fileStyle;
-    super.initState();
-  }
-
-  // Possible onClick methods
-
-  void Function() pickOnClick(BuildContext context) {
-    switch (widget.fileStyle) {
-      case FileInfoStyle.uploadingFile:
-        return () {};
-      case FileInfoStyle.uploadedDoc:
-        return () => showBottomSheet(context);
-      case FileInfoStyle.deleteableDoc:
-        return unsaveFile;
-      case FileInfoStyle.saveableDoc:
-        return saveFile;
-    }
-  }
-
-  void showBottomSheet(BuildContext context) => showModalBottomSheet(
-        enableDrag: true,
-        isScrollControlled: true,
-        backgroundColor: DropNote.colors.background,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(60.0),
-            topRight: Radius.circular(60.0),
-          ),
-        ),
-        context: context,
-        builder: (context) => const DocsBottomSheet(),
-      );
-
-  Future<void> saveFile() async {
-    await FileAPI.saveFile(widget.fileData);
-    setState(() => _fileStyle = FileInfoStyle.deleteableDoc);
-  }
-
-  Future<void> unsaveFile() async {
-    await FileAPI.unsaveFile(widget.fileData);
-    setState(() => _fileStyle = FileInfoStyle.saveableDoc);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FileThumbnail(
-          fileID: widget.fileData.fileID,
-          fileName: widget.fileData.fileName,
-          height: widget.height,
-        ),
+        FileThumbnail(fileID: fileData.fileID, fileName: fileData.fileName),
         FileDetails(
-          fileStyle: _fileStyle,
-          fileName: widget.fileData.fileName,
-          numSaves: widget.fileData.saveCount ?? 0,
-          ownerName: widget.fileData.ownerName,
-          onPressed: pickOnClick(context),
+          fileStyle: fileStyle,
+          fileName: fileData.fileName,
+          numSaves: fileData.saveCount ?? 0,
+          ownerName: fileData.ownerName,
+          onIconPressed: onIconPressed,
         ),
       ],
     );
@@ -107,14 +48,9 @@ class _FileListItemState extends State<FileListItem> {
 class FileThumbnail extends StatefulWidget {
   final String fileID;
   final String fileName;
-  final double? height;
 
-  const FileThumbnail({
-    super.key,
-    required this.fileID,
-    required this.fileName,
-    this.height,
-  });
+  const FileThumbnail(
+      {super.key, required this.fileID, required this.fileName});
 
   @override
   State<FileThumbnail> createState() => _FileThumbnailState();
@@ -152,7 +88,7 @@ class _FileThumbnailState extends State<FileThumbnail> {
   @override
   Widget build(BuildContext context) {
     double x = MediaQuery.of(context).size.width;
-    double y = widget.height ?? (x * 9.0) / 16.0;
+    double y = (x * 9.0) / 16.0;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -192,18 +128,16 @@ class FileDetails extends StatelessWidget {
   final String fileName;
   final int? numSaves;
   final String? ownerName;
-  final void Function()? onPressed;
+  final void Function()? onIconPressed;
 
   const FileDetails({
     super.key,
     required this.fileStyle,
     required this.fileName,
-    this.onPressed,
     this.numSaves,
     this.ownerName,
+    this.onIconPressed,
   });
-
-  // Sub-widgets
 
   Widget getFileName() => Text(
         fileName,
@@ -216,7 +150,7 @@ class FileDetails extends StatelessWidget {
   Widget getIcon(IconData icon) => IconButton(
         padding: const EdgeInsets.only(bottom: 3.0),
         constraints: const BoxConstraints(),
-        onPressed: onPressed,
+        onPressed: onIconPressed,
         icon: Icon(
           icon,
           color: DropNote.colors.foreground,
@@ -235,9 +169,11 @@ class FileDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (fileStyle) {
-      case FileInfoStyle.uploadingFile:
+      // === On Upload Page ====================================================
+      case FileInfoStyle.uploading:
         return getFileName();
-      case FileInfoStyle.uploadedDoc:
+      // === On Documents > Uploaded Tab =======================================
+      case FileInfoStyle.uploaded:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -248,27 +184,14 @@ class FileDetails extends StatelessWidget {
             getText("$numSaves saves"),
           ],
         );
-      case FileInfoStyle.saveableDoc:
+      // === On Documents > Saved Tab ==========================================
+      case FileInfoStyle.saved:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [getFileName(), getIcon(Icons.save_alt_rounded)],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [getText(ownerName!), getText("$numSaves saves")],
-            ),
-          ],
-        );
-      default: // FileInfoStyle.deleteableDoc
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [getFileName(), getIcon(Icons.delete_outlined)],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

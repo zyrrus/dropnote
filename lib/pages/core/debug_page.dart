@@ -429,8 +429,8 @@ class _ViewAllFilesState extends State<ViewAllFiles> {
         ...allFiles
             .map((e) => FileListItem(
                 fileStyle: (isMyFile(e))
-                    ? FileInfoStyle.uploadedDoc
-                    : FileInfoStyle.deleteableDoc,
+                    ? FileInfoStyle.uploaded
+                    : FileInfoStyle.saved,
                 fileData: e))
             .toList(),
         ElevatedButton(onPressed: getAllFiles, child: Text("View All Files"))

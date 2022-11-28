@@ -64,14 +64,4 @@ class UserAPI {
       print("Could not sign up");
     }
   }
-
-  static Future<void> updateUser(DNUser newUser) async {
-    var id = newUser.userID;
-
-    if (newUser.totalSaves is int && newUser.totalSaves! < 0) {
-      newUser.totalSaves = 0;
-    }
-
-    await db.collection(Collections.users).doc(id).update(newUser.toJson());
-  }
 }

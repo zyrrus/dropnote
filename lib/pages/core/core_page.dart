@@ -40,8 +40,8 @@ class _CorePageState extends State<CorePage> {
               selectedIndex: _selectedPageIndex,
               onTap: changePage,
             ),
-            child: IndexedStack(index: _selectedPageIndex, children: _pages),
-            // child: _pages[_selectedPageIndex],
+            // child: IndexedStack(index: _selectedPageIndex, children: _pages),
+            child: _pages[_selectedPageIndex],
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
