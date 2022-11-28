@@ -786,15 +786,9 @@ PODS:
   - pdfx (1.0.0):
     - Flutter
   - PromisesObjC (2.1.1)
-<<<<<<< HEAD
-  - SDWebImage (5.14.0):
-    - SDWebImage/Core (= 5.14.0)
-  - SDWebImage/Core (5.14.0)
-=======
   - SDWebImage (5.14.2):
     - SDWebImage/Core (= 5.14.2)
   - SDWebImage/Core (5.14.2)
->>>>>>> 1f92f60392170f8dda82e195523ee5ffcf86428d
   - SwiftyGif (5.4.3)
 
 DEPENDENCIES:

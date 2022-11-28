@@ -41,7 +41,6 @@ class UserAPI {
 
   static Future<void> signup(
       String email, String password, String name, String school) async {
-    UserCredential uc;
     try {
       // Create user in Auth
       UserCredential uc = await auth.createUserWithEmailAndPassword(
