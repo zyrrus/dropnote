@@ -234,20 +234,18 @@ class _SelectFileState extends State<SelectFile> {
               ),
             ],
           ),
-          if (filename != '')
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Currently selected", style: DropNote.textStyles.h2),
-<<<<<<< HEAD
-=======
-                FileListItem(
-                  fileStyle: FileInfoStyle.uploadingFile,
-                  fileData: file!,
-                ),
->>>>>>> parent of 3968448 (Revert "Merge branch 'develop' of https://github.com/zyrrus/dropnote into develop")
-              ],
-            ),
+          // if (fileData is Uint8List)
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     Text("Currently selected", style: DropNote.textStyles.h2),
+          // FileThumbnail(
+          //   fileID: "",
+          //   fileName: fileName ?? "",
+          //   fileData: fileData,
+          // ),
+          //   ],
+          // ),
         ],
       ),
     );
