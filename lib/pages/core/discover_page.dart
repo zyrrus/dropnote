@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/api/schools.dart';
 import 'package:dropnote/api/users.dart';
