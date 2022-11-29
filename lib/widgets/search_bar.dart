@@ -7,8 +7,15 @@ const dftSearchText = [];
 
 class SearchBar extends StatefulWidget {
   final TextEditingController controller;
+  final void Function(String)? onSubmit;
+  final FocusNode? textFocusNode;
 
-  const SearchBar({super.key, required this.controller});
+  const SearchBar({
+    super.key,
+    required this.controller,
+    this.onSubmit,
+    this.textFocusNode,
+  });
 
   @override
   State<SearchBar> createState() => _SearchBarState();
