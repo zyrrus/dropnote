@@ -83,7 +83,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const TitleBar(title: "Discover"),
-          SearchBar(controller: TextEditingController()),
+          SearchBar(
+            controller: TextEditingController(),
+          ),
           const Bar(),
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
