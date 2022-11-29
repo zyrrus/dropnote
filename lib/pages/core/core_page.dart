@@ -1,5 +1,5 @@
 import 'package:dropnote/pages/auth/auth_page.dart';
-import 'package:dropnote/pages/core/debug_page.dart';
+import 'package:dropnote/pages/debug_page.dart';
 import 'package:dropnote/pages/core/discover_page.dart';
 import 'package:dropnote/pages/core/documents_page.dart';
 import 'package:dropnote/pages/core/notification_page.dart';

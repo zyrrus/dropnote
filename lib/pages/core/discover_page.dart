@@ -2,7 +2,8 @@ import 'package:dropnote/api/files.dart';
 import 'package:dropnote/api/schools.dart';
 import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/user.dart';
-import 'package:dropnote/pages/core/people_page.dart';
+import 'package:dropnote/pages/discover_docs_page.dart';
+import 'package:dropnote/pages/discover_people_page.dart';
 import 'package:dropnote/api/users.dart';
 import 'package:dropnote/widgets/avatar_list_item.dart';
 import 'package:dropnote/widgets/bar.dart';
@@ -86,20 +87,29 @@ class _DiscoverPageState extends State<DiscoverPage> {
           const Bar(),
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
-          const Divider(),
+          const Bar(),
           SubtitleBar(
               title: "People from your school",
               onIconPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PeoplePage(people: people),
+                    builder: (context) => DiscoverPeoplePage(people: people),
                   ),
                 );
               }),
           AsyncHorizontalList(source: getPeople),
           const Bar(),
-          SubtitleBar(title: "Popular Files", onIconPressed: () {}),
+          SubtitleBar(
+              title: "Popular Files",
+              onIconPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DiscoverDocsPage(docs: files),
+                  ),
+                );
+              }),
           AsyncHorizontalList(source: getFiles),
           const Bar(),
           const SubtitleBar(title: "Active Schools"),

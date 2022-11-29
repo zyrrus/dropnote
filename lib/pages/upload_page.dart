@@ -59,24 +59,18 @@ class _UploadPageState extends State<UploadPage> {
         tagNames,
       );
 
-      bool storageReady = false;
-      bool userReady = false;
-
-      // Add to storage
-      StorageAPI.uploadFile(
-        platformFile!,
-        file.fileID,
-      ).then((_) => storageReady = true);
-
       // Update user > uploaded files
       if (user.uploadedFiles is List<String>) {
         user.uploadedFiles!.add(file.fileID);
       } else {
         user.uploadedFiles = [file.fileID];
       }
-      UserAPI.updateUser(user).then((_) => userReady = true);
+      await UserAPI.updateUser(user);
 
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+      // Add to storage
+      await StorageAPI.uploadFile(platformFile!, file.fileID);
+
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Uploaded ${file.fileName}")),
       );
     } catch (ex) {
@@ -179,6 +173,7 @@ class _UploadPageState extends State<UploadPage> {
               controller: tagController,
               label: "Enter Tags",
             ),
+            SizedBox(height: 200.0),
           ],
         ),
       ),

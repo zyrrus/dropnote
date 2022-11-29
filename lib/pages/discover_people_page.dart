@@ -4,10 +4,10 @@ import 'package:dropnote/widgets/people_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
 
-class PeoplePage extends StatelessWidget {
+class DiscoverPeoplePage extends StatelessWidget {
   final List<DNUser> people;
 
-  const PeoplePage({Key? key, required this.people}) : super(key: key);
+  const DiscoverPeoplePage({Key? key, required this.people}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

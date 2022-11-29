@@ -67,7 +67,7 @@ class _FileListItemState extends State<FileListItem> {
           ),
         ),
         context: context,
-        builder: (context) => const DocsBottomSheet(),
+        builder: (context) => DocsBottomSheet(fileData: widget.fileData),
       );
 
   Future<void> saveFile() async {
@@ -123,10 +123,9 @@ class FileThumbnail extends StatefulWidget {
 class _FileThumbnailState extends State<FileThumbnail> {
   Uint8List? fileData;
 
-  Future<Uint8List> getFileData() async {
-    Uint8List data = await StorageAPI.downloadFile(widget.fileID);
+  Future<void> getFileData() async {
+    Uint8List? data = await StorageAPI.downloadFile(widget.fileID);
     setState(() => fileData = data);
-    return data;
   }
 
   void showFileViewer(BuildContext context) {
@@ -171,7 +170,7 @@ class _FileThumbnailState extends State<FileThumbnail> {
                   ),
                   mimeType: 'application/pdf',
                   widgetSize: x,
-                  dataResolver: getFileData,
+                  dataResolver: () async => fileData!,
                 ),
               ),
             )

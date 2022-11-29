@@ -26,6 +26,7 @@ void main() async {
     await _configureFirebaseStorage();
     _configureFirebaseFirestore();
   }
+  await FirebaseAuth.instance.signOut();
 
   runApp(const DropNoteApp());
 }
