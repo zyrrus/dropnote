@@ -15,11 +15,12 @@ import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
 
 const tmpTagNames = [
-  "numqua!!",
-  "maiores",
-  "nostrum",
-  "lorem",
-  "ipsum",
+  "Linear Algebra",
+  "Graphics",
+  "Real Analysis",
+  "OS",
+  "Networking",
+  "Software Engineering",
 ];
 
 class DiscoverPage extends StatefulWidget {
