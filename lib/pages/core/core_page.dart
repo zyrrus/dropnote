@@ -24,7 +24,7 @@ class _CorePageState extends State<CorePage> {
     DocumentsPage(),
     NotificationPage(),
     ProfilePage(),
-    DebugPage(),
+    // DebugPage(),
   ];
 
   void changePage(int i) => setState(() => _selectedPageIndex = i);

@@ -56,6 +56,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return TextInputField(
       controller: widget.controller,
+      onSubmit: widget.onSubmit,
       label: animatedText[animationIndex],
       prefixIcon: Icon(
         Icons.search,
