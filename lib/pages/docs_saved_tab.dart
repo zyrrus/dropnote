@@ -1,6 +1,5 @@
 import 'package:dropnote/api/files.dart';
 import 'package:dropnote/theme.dart';
-import 'package:dropnote/widgets/docs_bottom_sheet.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:flutter/material.dart';
 

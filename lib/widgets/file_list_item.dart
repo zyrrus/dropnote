@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:thumbnailer/thumbnailer.dart';
 
 enum FileInfoStyle {
-  uploadingFile,
   uploadedDoc,
   saveableDoc,
   deleteableDoc,
@@ -37,16 +36,14 @@ class _FileListItemState extends State<FileListItem> {
 
   @override
   void initState() {
-    _fileStyle = widget.fileStyle;
     super.initState();
+    _fileStyle = widget.fileStyle;
   }
 
   // Possible onClick methods
 
   void Function() pickOnClick(BuildContext context) {
     switch (widget.fileStyle) {
-      case FileInfoStyle.uploadingFile:
-        return () {};
       case FileInfoStyle.uploadedDoc:
         return () => showBottomSheet(context);
       case FileInfoStyle.deleteableDoc:
@@ -210,6 +207,8 @@ class FileDetails extends StatelessWidget {
           fontSize: 18.0,
           fontWeight: FontWeight.w600,
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       );
 
   Widget getIcon(IconData icon) => IconButton(
@@ -234,15 +233,16 @@ class FileDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (fileStyle) {
-      case FileInfoStyle.uploadingFile:
-        return getFileName();
       case FileInfoStyle.uploadedDoc:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [getFileName(), getIcon(Icons.more_vert)],
+              children: [
+                Expanded(child: getFileName()),
+                getIcon(Icons.more_vert)
+              ],
             ),
             getText("$numSaves saves"),
           ],
@@ -253,7 +253,10 @@ class FileDetails extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [getFileName(), getIcon(Icons.save_alt_rounded)],
+              children: [
+                Expanded(child: getFileName()),
+                getIcon(Icons.save_alt_rounded)
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -267,7 +270,10 @@ class FileDetails extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [getFileName(), getIcon(Icons.delete_outlined)],
+              children: [
+                Expanded(child: getFileName()),
+                getIcon(Icons.delete_outlined)
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

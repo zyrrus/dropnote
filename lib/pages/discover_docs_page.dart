@@ -3,6 +3,7 @@ import 'package:dropnote/models/file.dart';
 import 'package:dropnote/models/user.dart';
 import 'package:dropnote/pages/core/core_page.dart';
 import 'package:dropnote/theme.dart';
+import 'package:dropnote/widgets/bar.dart';
 import 'package:dropnote/widgets/file_list_item.dart';
 import 'package:dropnote/widgets/title_bar.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _DiscoverDocsPageState extends State<DiscoverDocsPage> {
         child: Column(
           children: [
             const TitleBar(title: "Documents", showBackButton: true),
+            const Bar(),
             FutureBuilder<List<Widget>>(
               future: getFiles(),
               builder: (context, snapshot) {

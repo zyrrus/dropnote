@@ -9,12 +9,13 @@ class AvatarListItem extends StatelessWidget {
   final double avatarHeight;
   final double avatarWidth;
 
-  const AvatarListItem(
-      {super.key,
-      required this.imageURL,
-      required this.label,
-      this.avatarHeight = 70.0,
-      this.avatarWidth = 70.0});
+  const AvatarListItem({
+    super.key,
+    required this.imageURL,
+    required this.label,
+    this.avatarHeight = 70.0,
+    this.avatarWidth = 70.0,
+  });
 
   @override
   Widget build(BuildContext context) {

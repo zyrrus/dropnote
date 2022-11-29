@@ -34,8 +34,8 @@ class _TextInputFieldState extends State<TextInputField> {
 
   @override
   void initState() {
-    widget.controller.addListener(toggleClearIcon);
     super.initState();
+    widget.controller.addListener(toggleClearIcon);
   }
 
   @override

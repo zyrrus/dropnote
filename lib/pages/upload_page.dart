@@ -134,7 +134,7 @@ class _UploadPageState extends State<UploadPage> {
                 children: [
                   const UploadSettingListItem(
                     title: "Preview pages",
-                    subtitle: "Number of pages visible before saving",
+                    subtitle: "Pages available before saving",
                   ),
                   Flexible(
                     fit: FlexFit.tight,
@@ -205,7 +205,12 @@ class UploadSettingListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: DropNote.textStyles.h2),
-              Text(subtitle ?? "", style: DropNote.textStyles.s1),
+              Text(
+                subtitle ?? "",
+                style: DropNote.textStyles.s1,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ],
           ),
           if (icon is Widget) icon!,

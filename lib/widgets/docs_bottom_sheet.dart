@@ -53,6 +53,8 @@ class _DocsBottomSheetState extends State<DocsBottomSheet> {
                   Text(
                     widget.fileData.fileName,
                     style: DropNote.textStyles.h1,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -101,7 +103,7 @@ class _DocsBottomSheetState extends State<DocsBottomSheet> {
                 children: [
                   const BottomTabSettingListItem(
                     title: "Preview pages",
-                    subtitle: "Number of pages visible before saving",
+                    subtitle: "Pages available before saving",
                   ),
                   Flexible(
                     fit: FlexFit.tight,

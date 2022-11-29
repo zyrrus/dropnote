@@ -1,5 +1,5 @@
 import 'package:dropnote/theme.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class HorizontalList extends StatelessWidget {
   final List<Widget> children;
@@ -32,5 +32,28 @@ class HorizontalList extends StatelessWidget {
             .toList(),
       ),
     );
+  }
+}
+
+class AsyncHorizontalList extends StatelessWidget {
+  final Future<List<Widget>> Function() source;
+
+  const AsyncHorizontalList({super.key, required this.source});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Widget>>(
+        future: source(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HorizontalList(children: snapshot.data!);
+          }
+          return const Center(
+            child: SizedBox.square(
+              dimension: 100.0,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        });
   }
 }

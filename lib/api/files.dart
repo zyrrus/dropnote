@@ -54,12 +54,15 @@ class FileAPI {
   }
 
   static Future<List<DNFile>> getFilesFromList(List<String> fileIdList) async {
-    var rawData = await db
-        .collection(Collections.files)
-        .where("fileID", whereIn: fileIdList)
-        .get();
-    var files = rawData.docs.map((e) => DNFile.fromJson(e, null));
-    return files.toList();
+    if (fileIdList.length > 0) {
+      var rawData = await db
+          .collection(Collections.files)
+          .where("fileID", whereIn: fileIdList)
+          .get();
+      var files = rawData.docs.map((e) => DNFile.fromJson(e, null));
+      return files.toList();
+    }
+    return [];
   }
 
   static Future<void> saveFile(DNFile file) async {

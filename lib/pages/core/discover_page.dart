@@ -30,6 +30,7 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
+  final searchController = TextEditingController();
   List<Widget> getTags() => tmpTagNames.map((e) => Tag(e)).toList();
   List<DNUser> people = [];
   List<DNFile> files = [];
@@ -59,7 +60,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
       }
     }
 
-    setState(() => this.files = files);
+    if (mounted) setState(() => this.files = files);
+
     return files
         .map((e) => SizedBox(
               width: 300.0,
@@ -76,6 +78,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
       .map((e) => AvatarListItem(label: e.name, imageURL: e.image))
       .toList();
 
+  void onSubmitSearch(String query) {}
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -83,9 +87,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const TitleBar(title: "Discover"),
-          SearchBar(
-            controller: TextEditingController(),
-          ),
+          SearchBar(controller: searchController, onSubmit: onSubmitSearch),
           const Bar(),
           const SubtitleBar(title: "Tags you may like"),
           HorizontalList(spacing: 10.0, children: getTags()),
@@ -120,28 +122,5 @@ class _DiscoverPageState extends State<DiscoverPage> {
         ],
       ),
     );
-  }
-}
-
-class AsyncHorizontalList extends StatelessWidget {
-  final Future<List<Widget>> Function() source;
-
-  const AsyncHorizontalList({super.key, required this.source});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Widget>>(
-        future: source(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return HorizontalList(children: snapshot.data!);
-          }
-          return const Center(
-            child: SizedBox.square(
-              dimension: 100.0,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        });
   }
 }

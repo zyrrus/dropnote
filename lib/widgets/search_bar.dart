@@ -3,8 +3,6 @@ import 'package:dropnote/widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dropnote/theme.dart';
 
-const dftSearchText = [];
-
 class SearchBar extends StatefulWidget {
   final TextEditingController controller;
   final void Function(String)? onSubmit;
